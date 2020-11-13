@@ -1,6 +1,8 @@
 import path from 'path'
 import typescript from 'rollup-plugin-typescript2'
 import babel from '@rollup/plugin-babel'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import replace from '@rollup/plugin-replace'
 import { terser } from 'rollup-plugin-terser'
 import license from 'rollup-plugin-license'
 import progress from 'rollup-plugin-progress'
@@ -11,6 +13,12 @@ export default {
 	input: 'src/index.ts',
 	plugins: [
 		typescript({ check: false }),
+		nodeResolve({
+			browser: true
+		}),
+		replace({
+			'process.env.NODE_ENV': JSON.stringify(process.env.NODE)
+		}),
 		babel({
 			extensions: ['.js', '.ts'],
 			babelHelpers: 'bundled',
