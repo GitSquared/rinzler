@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rollup --config",
     "lint": "eslint --color --ignore-path .gitignore \"**/*.js\" \"**/*.ts\"",
-    "test": "tsc"
+    "test": "tsc --noEmit"
   },
   "husky": {
     "hooks": {
