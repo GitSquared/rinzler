@@ -2,13 +2,13 @@
   "name": "rinzler-engine",
   "version": "0.0.1",
   "description": "A parallel processing engine for the browser.",
-  "main": "dist/rinzler.umd.min.js",
-  "module": "dist/rinzler.esm.min.js",
+  "main": "dist/rinzler.umd.js",
+  "module": "dist/rinzler.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rollup --config",
     "lint": "eslint --color --ignore-path .gitignore \"**/*.js\" \"**/*.ts\"",
-    "test": "tsc --noEmit"
+    "test": "tsc -p src"
   },
   "husky": {
     "hooks": {

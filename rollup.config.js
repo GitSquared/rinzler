@@ -12,11 +12,15 @@ import pkg from './package.json'
 export default {
 	input: 'src/index.ts',
 	plugins: [
-		typescript({ check: false }),
 		nodeResolve({
 			browser: true
 		}),
+		typescript({
+			check: false,
+			tsconfig: './src/tsconfig.json'
+		}),
 		replace({
+			/* eslint-disable-next-line @typescript-eslint/naming-convention */
 			'process.env.NODE_ENV': JSON.stringify(process.env.NODE)
 		}),
 		babel({
@@ -39,24 +43,15 @@ export default {
 	],
 	output: [
 		{
-			file: pkg.main.replace('.min', ''),
-			name: 'Rinzler',
-			sourcemap: true,
-			format: 'umd',
-		},
-		{
-			file: pkg.module.replace('.min', ''),
-			sourcemap: true,
-			format: 'esm',
-		},
-		{
 			file: pkg.main,
-			name: 'Rinzler',
+			name: 'RinzlerEngine',
+			sourcemap: true,
 			format: 'umd',
 			plugins: [terser()]
 		},
 		{
 			file: pkg.module,
+			sourcemap: true,
 			format: 'esm',
 			plugins: [terser()]
 		}
