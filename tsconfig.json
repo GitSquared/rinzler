@@ -6,6 +6,7 @@
     "importsNotUsedAsValues": "error",
     "strict": true,
     "skipLibCheck": true,
+    "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "baseUrl": "./"

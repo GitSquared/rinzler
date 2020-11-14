@@ -1,12 +1,13 @@
 {
   "extends": "../tsconfig.json",
+  "include": ["index.ts"],
   "compilerOptions": {
     "lib": ["esnext", "dom"],
     "moduleResolution": "node",
     "isolatedModules": true,
     "resolveJsonModule": true,
     "declaration": true,
-    "sourceMap": true,
-    "noEmit": true
+    "declarationDir": "../dist/types",
+    "sourceMap": true
   }
 }
