@@ -1,7 +1,11 @@
 {
   "presets": [
-    "@babel/env",
+    ["@babel/env", {
+      "targets": { "esmodules": true }
+    }],
     "@babel/typescript"
   ],
-  "plugins": []
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ]
 }
