@@ -28,11 +28,12 @@ export interface JobReturnCall extends WorkerMsg {
 	transfer?: Transferable[]
 }
 
-export interface EndOfLoopCall extends WorkerMsg {
-	type: 'eol'
-}
-
 export default class WebWorker extends RinzlerEventEmitter {
+	/* Public props */
+
+	jobs: string[] = []
+	active = false
+
 	/* Internal props */
 
 	#workerRef: Worker
@@ -54,11 +55,23 @@ export default class WebWorker extends RinzlerEventEmitter {
 	async start(): Promise<void> {
 		this.#workerRef.postMessage('startup')
 		await super.waitFor('ready')
+		this.active = true
 	}
 
 	async submitJob(job: JobCall): Promise<void> {
+		if (!this.active) throw new Error('Rinzler WorkerWrapper: not taking new jobs')
+
 		this.#workerRef.postMessage(job)
 		await super.waitFor(`jobok-${job.id}`)
+		this.jobs.push(job.id)
+	}
+
+	async shutdown(): Promise<void> {
+		this.active = false
+		if (this.jobs.length > 0) {
+			await this.waitFor('idle')
+		}
+		this.terminate()
 	}
 
 	terminate(): void {
@@ -79,6 +92,10 @@ export default class WebWorker extends RinzlerEventEmitter {
 			case 'jobdone':
 				super._triggerEvent<JobReturnCall>('jobdone', e.data)
 				super._triggerEvent<JobReturnCall>(`jobdone-${e.data.id}`, e.data)
+				this.jobs.splice(this.jobs.indexOf(e.data.id))
+				if (this.jobs.length === 0) {
+					super._triggerEvent('idle')
+				}
 				break
 			default:
 				throw new Error('Rinzler WorkerWrapper: unknown message received')

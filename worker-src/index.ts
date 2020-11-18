@@ -4,13 +4,9 @@ import type { JobCall, JobAcceptCall, JobReturnCall } from '../src/worker-wrappe
 
 interface ReceivedMessageEvent extends MessageEvent {
 	data: {
-		type: 'startup' | 'job' | 'eol'
+		type: 'startup' | 'job'
 	}
 }
-
-/* Initial worker state */
-
-let acceptIncomingWork = false
 
 /* These two will be replaced by actual code when launching the worker - see src/worker-wrapper */
 
@@ -20,8 +16,6 @@ const work: (message: unknown, transfer?: Transferable[]) => Promise<[message: u
 /* Where the actual magic happens! */
 
 async function processJob(job: JobCall): Promise<void> {
-	if (!acceptIncomingWork) throw new Error('Rinzler Worker is not accepting work')
-
 	const id = job.id
 
 	self.postMessage({
@@ -44,15 +38,11 @@ self.addEventListener('message', (e: ReceivedMessageEvent) => {
 	switch(e.data.type) {
 		case 'startup':
 			init().then(() => {
-				acceptIncomingWork = true
 				self.postMessage('ready')
 			})
 			break
 		case 'job':
 			processJob(e.data as JobCall)
-			break
-		case 'eol':
-			acceptIncomingWork = false
 			break
 		default:
 			throw new Error('Rinzler Worker: unknown message received')
