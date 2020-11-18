@@ -1,5 +1,6 @@
 /* TypeScript interfaces & helpers */
 
+import './worker.d.ts'
 import type { JobCall, JobAcceptCall, JobReturnCall } from '../src/worker-wrapper'
 
 interface ReceivedMessageEvent extends MessageEvent {
