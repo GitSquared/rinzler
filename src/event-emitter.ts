@@ -1,7 +1,7 @@
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 type Listener<T = any> = (data?: T) => unknown
 
-export abstract class RinzlerEventEmitter {
+export default abstract class RinzlerEventEmitter {
 	#listeners: Map<string, Listener[]> = new Map()
 	#onceListeners: Map<string, Listener[]> = new Map()
 
