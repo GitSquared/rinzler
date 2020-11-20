@@ -31,7 +31,6 @@ export default class RinzlerEngine {
 		await this._coolDown(this.#scheduler.workerPool.size + 1, true)
 	}
 
-	//TODO: job error handling
 	async runJob(message: unknown, transfer?: Transferable[]): Promise<[message: unknown, transfer?: Transferable[]]> {
 		await this._automaticHeatUp()
 		return this.#scheduler.submitJob(message, transfer)

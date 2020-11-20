@@ -59,6 +59,10 @@ export default class Scheduler {
 		this.lastJobsExecTimes.push(perfMarkB - perfMarkA)
 		this.lastJobsExecTimes.splice(this.#jobsExecTimesBacklogSize, this.lastJobsExecTimes.length - this.#jobsExecTimesBacklogSize)
 
+		if (jobResults.error) {
+			throw new Error('(in Rinzler job): ' + jobResults.message)
+		}
+
 		return [jobResults.message, jobResults.transfer]
 	}
 

@@ -24,6 +24,7 @@ export interface JobAcceptCall extends WorkerMsg {
 export interface JobReturnCall extends WorkerMsg {
 	type: 'jobdone'
 	id: string
+	error: boolean
 	message: unknown
 	transfer?: Transferable[]
 }

@@ -24,10 +24,19 @@ async function processJob(job: JobCall): Promise<void> {
 		id
 	} as JobAcceptCall)
 
-	const [message, transfer] = await work(job.message, job.transfer)
+	let message, transfer, error
+	try {
+		[message, transfer] = await work(job.message, job.transfer)
+		error = false
+	} catch(err) {
+		message = err.message
+		error = true
+	}
+
 	self.postMessage({
 		type: 'jobdone',
 		id,
+		error,
 		message,
 		transfer
 	} as JobReturnCall, transfer || [])
