@@ -1,10 +1,11 @@
 import Scheduler from './scheduler'
 import WebWorker from './worker-wrapper'
+import calculateMedian from './median'
 
 export default class RinzlerEngine {
 	/* Internal props */
 
-	#maxTemp: number
+	#maxTemp = (navigator.hardwareConcurrency && navigator.hardwareConcurrency > 1) ? navigator.hardwareConcurrency - 1 : 1
 	#targetTemp = -1
 	#minTemp = 1
 	#workerArgs: Parameters<RinzlerEngine['startup']> | undefined
@@ -17,24 +18,22 @@ export default class RinzlerEngine {
 
 	/* Public methods */
 
-	constructor() {
-		this.#maxTemp = (navigator.hardwareConcurrency && navigator.hardwareConcurrency > 1) ? navigator.hardwareConcurrency - 1 : 1
-	}
-
 	async startup(...args: ConstructorParameters<typeof WebWorker>): Promise<RinzlerEngine> {
 		if (this.#scheduler.workerPool.size) throw new Error('Rinzler: engine is already started, please use shutdown() first')
 
 		this.#workerArgs = args
+		this.#targetTemp = 0
 		await this._heatUp()
 		return this
 	}
 
 	async shutdown(): Promise<void> {
-		await this._coolDown(this.#scheduler.workerPool.size)
+		await this._coolDown(this.#scheduler.workerPool.size + 1, true)
 	}
 
 	//TODO: job error handling
-	runJob(message: unknown, transfer?: Transferable[]): Promise<[message: unknown, transfer?: Transferable[]]> {
+	async runJob(message: unknown, transfer?: Transferable[]): Promise<[message: unknown, transfer?: Transferable[]]> {
+		await this._automaticHeatUp()
 		return this.#scheduler.submitJob(message, transfer)
 	}
 
@@ -51,6 +50,10 @@ export default class RinzlerEngine {
 
 	private _measureTemp(): number {
 		return this.#scheduler.workerPool.size
+	}
+
+	private _measureMedianForkTime(): number {
+		return calculateMedian(this.#extendPoolTimes)
 	}
 
 	private _idleWorkerListener(wid: string): void {
@@ -74,11 +77,23 @@ export default class RinzlerEngine {
 		})
 	}
 
+	private async _automaticHeatUp(): Promise<void> {
+		const { jobCount } = this.#scheduler.getLeastBusyWorker()
+		if (jobCount * this.#scheduler.measureMedianExecTime() > this._measureMedianForkTime()) {
+			// Forking a new thread is worth it, let's rock
+			try {
+				await this._heatUp()
+			} catch {
+				// We're already maxed out!
+			}
+		}
+	}
+
 	private async _heatUp(threadCount = 1): Promise<void> {
 		// start more workers
 		if (!this.#workerArgs) throw new Error('Rinzler (internal): unknown parameters for heating up new threads')
 		if ((this.#targetTemp + threadCount) > this.#maxTemp) throw new Error('Rinzler (internal): attempting to overheat')
-		if (this.#targetTemp === 0) throw new Error('Rinzler (internal): engine is too cold, likely has already been shut down')
+		if (this.#targetTemp < 0) throw new Error('Rinzler (internal): engine is too cold, likely has already been shut down')
 
 		this.#targetTemp = (this._measureTemp() + threadCount) || threadCount
 		for (let i = 0; i < threadCount; i++) {
@@ -96,10 +111,12 @@ export default class RinzlerEngine {
 		}
 	}
 
-	private async _coolDown(threadCount = 1): Promise<void> {
+	private async _coolDown(threadCount = 1, override = false): Promise<void> {
 		// reduce number of active workers
-		if ((this.#targetTemp - threadCount) < this.#minTemp) throw new Error('Rinzler (internal): attempting to underheat')
-		if ((this.#targetTemp - threadCount) < this._measureTemp()) throw new Error('Rinzler (internal): engine cannot run in subzero temperatures')
+		if (!override) {
+			if ((this.#targetTemp - threadCount) < this.#minTemp) throw new Error('Rinzler (internal): attempting to underheat')
+			if ((this.#targetTemp - threadCount) < this._measureTemp()) throw new Error('Rinzler (internal): engine cannot run in subzero temperatures')
+		}
 
 		this.#targetTemp = this._measureTemp() - threadCount
 		for (let i = 0; i < threadCount; i++) {
