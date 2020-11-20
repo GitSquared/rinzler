@@ -54,7 +54,7 @@ export default class RinzlerEngine {
 	}
 
 	private _idleWorkerListener(wid: string): void {
-		if (this.#coolingTimer) return
+		if (this.#coolingTimer || this.#scheduler.workerPool.size <= this.#minTemp) return
 		const worker = this.#scheduler.workerPool.get(wid)
 
 		this.#coolingTimer = [window.setTimeout(() => {
