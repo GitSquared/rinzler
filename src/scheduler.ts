@@ -1,4 +1,5 @@
 import type WebWorker from './worker-wrapper'
+import type { JobReturnCall } from './worker-wrapper'
 import type { JobCall } from './worker-wrapper'
 import { nanoid } from 'nanoid'
 
@@ -19,7 +20,7 @@ export default class Scheduler {
 	}
 
 	async reducePool(): Promise<void> {
-		const [id, worker] = this._getLeastBusyWorker()
+		const [worker, id] = this._getLeastBusyWorker()
 		if (!worker) return
 		await worker.shutdown()
 		this.workerPool.delete(id)
@@ -34,14 +35,14 @@ export default class Scheduler {
 			transfer
 		}
 
-		const [wid, worker] = this._getLeastBusyWorker()
+		const [worker] = this._getLeastBusyWorker()
 		await worker.submitJob(job)
 		return [id, wid]
 	}
 
 	/* Private methods */
 
-	private _getLeastBusyWorker(): [string, WebWorker] {
+	private _getLeastBusyWorker(): [WebWorker, string, number] {
 		let lowest: [number, string] = [-1, '']
 		// O(n) complexity except when a worker has 0 current jobs,
 		// but we're unlikely to ever be looping >20 entries, so...
@@ -52,6 +53,6 @@ export default class Scheduler {
 				if (lowest[0] === 0) break
 			}
 		}
-		return [lowest[1], this.workerPool.get(lowest[1]) as WebWorker]
+		return [this.workerPool.get(lowest[1]) as WebWorker, lowest[1], lowest[0]]
 	}
 }
