@@ -1,5 +1,4 @@
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-type Listener<T = any> = (data?: T) => unknown
+type Listener<T = undefined> = (data?: T) => unknown
 
 export default abstract class RinzlerEventEmitter {
 	#listeners: Map<string, Listener[]> = new Map()
@@ -13,10 +12,10 @@ export default abstract class RinzlerEventEmitter {
 		this.#onceListeners.get(event)?.push(func) || this.#onceListeners.set(event, [func])
 	}
 
-	waitFor<T = void>(event: string): Promise<T> {
+	waitFor<T = undefined>(event: string): Promise<T> {
 		return new Promise(resolve => {
-			this.once(event, () => {
-				resolve()
+			this.once<T>(event, (e: unknown) => {
+				resolve(e as T)
 			})
 		})
 	}
