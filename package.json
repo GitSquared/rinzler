@@ -10,6 +10,11 @@
     "lint": "eslint --color --ignore-path .gitignore \"**/*.js\" \"**/*.ts\"",
     "test": "tsc -p src && tsc -p worker-src"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
