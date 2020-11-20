@@ -1,4 +1,5 @@
-type Listener<T = undefined> = (data?: T) => unknown
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+type Listener<T = any> = (data?: T) => unknown
 
 export default abstract class RinzlerEventEmitter {
 	#listeners: Map<string, Listener[]> = new Map()
