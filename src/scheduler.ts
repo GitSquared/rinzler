@@ -1,14 +1,18 @@
 import type WebWorker from './worker-wrapper'
-import type { JobReturnCall } from './worker-wrapper'
-import type { JobCall } from './worker-wrapper'
+import type { JobReturnCall, JobCall } from './worker-wrapper'
+import calculateMedian from './median'
 import { nanoid } from 'nanoid'
 
 export default class Scheduler {
 	/* Public props */
 
 	workerPool: Map<string, WebWorker> = new Map()
+	pressure = 0
+	lastJobsExecTimes: number[] = []
 
-	/* Private props */
+	/* Internal props */
+
+	readonly #jobsExecTimesBacklogSize = 20
 
 	/* Public methods */
 
@@ -26,7 +30,7 @@ export default class Scheduler {
 		this.workerPool.delete(id)
 	}
 
-	async submitJob(message: unknown, transfer?: Transferable[]): Promise<Promise<JobReturnCall>> {
+	async submitJob(message: unknown, transfer?: Transferable[]): Promise<[message: unknown, transfer?: Transferable[]]> {
 		const id = nanoid()
 		const job: JobCall = {
 			type: 'job',
@@ -35,14 +39,26 @@ export default class Scheduler {
 			transfer
 		}
 
-		const [worker] = this._getLeastBusyWorker()
+		const perfMarkA = performance.now()
+
+		const { worker } = this.getLeastBusyWorker()
 		await worker.submitJob(job)
-		return worker.waitFor<JobReturnCall>(`jobdone-${id}`)
+		this.pressure++
+		const jobResults = await worker.waitFor<JobReturnCall>(`jobdone-${id}`)
+		this.pressure--
+
+		const perfMarkB = performance.now()
+		this.lastJobsExecTimes.push(perfMarkB - perfMarkA)
+		this.lastJobsExecTimes.splice(this.#jobsExecTimesBacklogSize, this.lastJobsExecTimes.length - this.#jobsExecTimesBacklogSize)
+
+		return [jobResults.message, jobResults.transfer]
 	}
 
-	/* Private methods */
+	measureMedianExecTime(): number {
+		return calculateMedian(this.lastJobsExecTimes)
+	}
 
-	private _getLeastBusyWorker(): [WebWorker, string, number] {
+	getLeastBusyWorker(): { worker: WebWorker; wid: string; jobCount: number } {
 		let lowest: [number, string] = [-1, '']
 		// O(n) complexity except when a worker has 0 current jobs,
 		// but we're unlikely to ever be looping >20 entries, so...
@@ -53,6 +69,10 @@ export default class Scheduler {
 				if (lowest[0] === 0) break
 			}
 		}
-		return [this.workerPool.get(lowest[1]) as WebWorker, lowest[1], lowest[0]]
+		return {
+			worker: this.workerPool.get(lowest[1]) as WebWorker,
+			wid: lowest[1],
+			jobCount: lowest[0]
+		}
 	}
 }
