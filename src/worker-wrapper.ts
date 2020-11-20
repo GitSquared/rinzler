@@ -62,7 +62,7 @@ export default class WebWorker extends RinzlerEventEmitter {
 	async submitJob(job: JobCall): Promise<void> {
 		if (!this.active) throw new Error('Rinzler WorkerWrapper: not taking new jobs')
 
-		this.#workerRef.postMessage(job)
+		this.#workerRef.postMessage(job, job.transfer || [])
 		await super.waitFor(`jobok-${job.id}`)
 		this.jobs.push(job.id)
 	}

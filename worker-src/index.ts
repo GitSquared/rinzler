@@ -30,7 +30,7 @@ async function processJob(job: JobCall): Promise<void> {
 		id,
 		message,
 		transfer
-	} as JobReturnCall)
+	} as JobReturnCall, transfer || [])
 }
 
 /* Attach event handlers */
