@@ -11,8 +11,8 @@ interface ReceivedMessageEvent extends MessageEvent {
 
 /* These two will be replaced by actual code when launching the worker - see src/worker-wrapper */
 
-const init: () => Promise<void> = __INIT_FUNCTION__
-const work: (message: unknown, transfer?: Transferable[]) => Promise<[message: unknown, transfer?: Transferable[]]> = __WORK_FUNCTION__
+const init: () => Promise<void> = INIT_FUNCTION
+const work: (message: unknown, transfer?: Transferable[]) => Promise<[message: unknown, transfer?: Transferable[]]> = WORK_FUNCTION
 
 /* Where the actual magic happens! */
 
