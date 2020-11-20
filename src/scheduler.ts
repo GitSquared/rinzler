@@ -26,7 +26,7 @@ export default class Scheduler {
 		this.workerPool.delete(id)
 	}
 
-	async submitJob(message: unknown, transfer?: Transferable[]): Promise<[string, string]> {
+	async submitJob(message: unknown, transfer?: Transferable[]): Promise<Promise<JobReturnCall>> {
 		const id = nanoid()
 		const job: JobCall = {
 			type: 'job',
@@ -37,7 +37,7 @@ export default class Scheduler {
 
 		const [worker] = this._getLeastBusyWorker()
 		await worker.submitJob(job)
-		return [id, wid]
+		return worker.waitFor<JobReturnCall>(`jobdone-${id}`)
 	}
 
 	/* Private methods */
