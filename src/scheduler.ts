@@ -23,8 +23,16 @@ export default class Scheduler {
 		return id
 	}
 
-	async reducePool(): Promise<void> {
-		const [worker, id] = this._getLeastBusyWorker()
+	async reducePool(wid?: string): Promise<void> {
+		let worker, id
+		if (wid) {
+			[worker, id] = [
+				this.workerPool.get(wid),
+				wid
+			]
+		} else {
+			({ worker, wid: id } = this.getLeastBusyWorker())
+		}
 		if (!worker) return
 		await worker.shutdown()
 		this.workerPool.delete(id)
