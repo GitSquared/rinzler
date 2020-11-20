@@ -34,8 +34,8 @@ export default class Scheduler {
 			({ worker, wid: id } = this.getLeastBusyWorker())
 		}
 		if (!worker) return
-		await worker.shutdown()
 		this.workerPool.delete(id)
+		await worker.shutdown()
 	}
 
 	async submitJob(message: unknown, transfer?: Transferable[]): Promise<[message: unknown, transfer?: Transferable[]]> {

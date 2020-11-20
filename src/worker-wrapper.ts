@@ -56,6 +56,7 @@ export default class WebWorker extends RinzlerEventEmitter {
 		this.#workerRef.postMessage('startup')
 		await super.waitFor('ready')
 		this.active = true
+		super._triggerEvent('idle')
 	}
 
 	async submitJob(job: JobCall): Promise<void> {
