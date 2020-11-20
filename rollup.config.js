@@ -1,6 +1,6 @@
 import path from 'path'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { string } from 'rollup-plugin-string'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import babel from '@rollup/plugin-babel'
 import replace from '@rollup/plugin-replace'
@@ -42,13 +42,12 @@ export default [
 	},
 	{
 		input: 'src/index.ts',
-		external: ['dist/internals/worker-src'],
 		plugins: [
+			string({
+				include: './dist/internals/worker-src.js'
+			}),
 			nodeResolve({
 				browser: true
-			}),
-			string({
-				include: 'dist/worker-src.js'
 			}),
 			typescript({
 				check: false,

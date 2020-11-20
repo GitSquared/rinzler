@@ -1,5 +1,5 @@
 import RinzlerEventEmitter from './event-emitter'
-import src from 'dist/internals/worker-src'
+import src from '../dist/internals/worker-src.js'
 
 interface WorkerMsg {
 	type: string
