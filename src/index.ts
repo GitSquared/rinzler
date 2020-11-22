@@ -31,9 +31,9 @@ export default class RinzlerEngine {
 		await this._coolDown(this.#scheduler.workerPool.size + 1, true)
 	}
 
-	async runJob(message: unknown, transfer?: Transferable[]): Promise<[message: unknown, transfer?: Transferable[]]> {
+	async runJob<T = void>(...args: Parameters<Scheduler['submitJob']>): Promise<T> {
 		await this._automaticHeatUp()
-		return this.#scheduler.submitJob(message, transfer)
+		return this.#scheduler.submitJob<T>(...args)
 	}
 
 	async preHeat(): Promise<RinzlerEngine> {

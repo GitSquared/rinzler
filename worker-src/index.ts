@@ -37,8 +37,7 @@ async function processJob(job: JobCall): Promise<void> {
 		type: 'jobdone',
 		id,
 		error,
-		message,
-		transfer
+		message
 	} as JobReturnCall, transfer || [])
 }
 

@@ -21,12 +21,11 @@ export interface JobAcceptCall extends WorkerMsg {
 	id: string
 }
 
-export interface JobReturnCall extends WorkerMsg {
+export interface JobReturnCall<T = undefined> extends WorkerMsg {
 	type: 'jobdone'
 	id: string
 	error: boolean
-	message: unknown
-	transfer?: Transferable[]
+	message: T
 }
 
 export default class WebWorker extends RinzlerEventEmitter {

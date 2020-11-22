@@ -38,7 +38,7 @@ export default class Scheduler {
 		await worker.shutdown()
 	}
 
-	async submitJob(message: unknown, transfer?: Transferable[]): Promise<[message: unknown, transfer?: Transferable[]]> {
+	async submitJob<T>(message: unknown, transfer?: Transferable[]): Promise<T> {
 		const id = nanoid()
 		const job: JobCall = {
 			type: 'job',
@@ -52,7 +52,7 @@ export default class Scheduler {
 		const { worker } = this.getLeastBusyWorker()
 		await worker.submitJob(job)
 		this.pressure++
-		const jobResults = await worker.waitFor<JobReturnCall>(`jobdone-${id}`)
+		const jobResults = await worker.waitFor<JobReturnCall<T>>(`jobdone-${id}`)
 		this.pressure--
 
 		const perfMarkB = performance.now()
@@ -63,7 +63,7 @@ export default class Scheduler {
 			throw new Error('(in Rinzler job): ' + jobResults.message)
 		}
 
-		return [jobResults.message, jobResults.transfer]
+		return jobResults.message
 	}
 
 	measureMedianExecTime(): number {
