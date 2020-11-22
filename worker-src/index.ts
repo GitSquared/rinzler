@@ -24,10 +24,11 @@ async function processJob(job: JobCall): Promise<void> {
 		id
 	} as JobAcceptCall)
 
-	let message, transfer, error
+	let message: unknown
+	let transfer: Transferable[] = []
+	let error = false
 	try {
 		[message, transfer] = await work(job.message)
-		error = false
 	} catch(err) {
 		message = err.message
 		error = true
