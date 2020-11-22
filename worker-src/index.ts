@@ -26,7 +26,7 @@ async function processJob(job: JobCall): Promise<void> {
 
 	let message, transfer, error
 	try {
-		[message, transfer] = await work(job.message, job.transfer)
+		[message, transfer] = await work(job.message)
 		error = false
 	} catch(err) {
 		message = err.message
