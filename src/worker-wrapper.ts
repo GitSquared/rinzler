@@ -40,7 +40,7 @@ export default class WebWorker extends RinzlerEventEmitter {
 
 	/* Public methods */
 
-	constructor(workFunction: (message: unknown, transfer?: Transferable[]) => Promise<[message: unknown, transfer?: Transferable[]]>, initFunction?: () => Promise<void>) {
+	constructor(workFunction: (message: unknown) => Promise<[message: unknown, transfer?: Transferable[]]> | [message: unknown, transfer?: Transferable[]], initFunction?: () => Promise<void> | void) {
 		super()
 		const populatedSrc = src
 			.replace('INIT_FUNCTION', initFunction?.toString() || 'async () => {}')

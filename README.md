@@ -44,7 +44,7 @@ The following code is written for asynchronous contexts, but you can translate i
 ```js
 import RinzlerEngine from 'rinzler-engine'
 
-const engine = await new RinzlerEngine().startup(processJob, init)
+const engine = await new RinzlerEngine().configureAndStart(processJob, init)
 ```
 
 Now we can actually run jobs! We'll use the `runJob()` method, which returns a `Promise` that will resolve when the job is completed.

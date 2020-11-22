@@ -7,8 +7,9 @@
   "types": "./dist/types/index.d.ts",
   "scripts": {
     "build": "rollup --config",
-    "lint": "eslint --color --ignore-path .gitignore \"**/*.js\" \"**/*.ts\"",
-    "test": "tsc -p src && tsc -p worker-src"
+    "lint": "eslint --color --ignore-path .gitignore \"src/**/*.ts\" \"worker-src/**/*.ts\"",
+    "test": "tsc -p src && tsc -p worker-src",
+    "make-docs": "typedoc"
   },
   "files": [
     "dist",
@@ -23,8 +24,9 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.ts": "eslint --cache --fix"
+    "./*.js": "eslint --cache --fix",
+    "./src/**/*.ts": "eslint --cache --fix",
+    "./worker-src/**/*.ts": "eslint --cache --fix"
   },
   "repository": {
     "type": "git",
@@ -36,6 +38,9 @@
     "url": "https://github.com/GitSquared/rinzler/issues"
   },
   "homepage": "https://github.com/GitSquared/rinzler#readme",
+  "dependencies": {
+    "nanoid": "^3.1.17"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
@@ -62,9 +67,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.29.0",
     "tslib": "^2.0.3",
+    "typedoc": "^0.19.2",
     "typescript": "^4.1.2"
-  },
-  "dependencies": {
-    "nanoid": "^3.1.17"
   }
 }

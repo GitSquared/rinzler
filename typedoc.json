@@ -1,0 +1,12 @@
+{
+  "inputFiles": ["./src/index.ts"],
+  "exclude": ["!src/index.ts"],
+  "mode": "file",
+  "out": "docs",
+  "name": "Rinzler",
+  "ignoreCompilerErrors": true,
+  "excludeNotExported": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "disableSources": true
+}

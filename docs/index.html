@@ -1,0 +1,147 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Rinzler</title>
+	<meta name="description" content="Documentation for Rinzler">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">Rinzler</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>Rinzler</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<div align="center">
+					<img width="60%" alt="Rinzler project logo" src="https://github.com/GitSquared/rinzler/raw/master/media/rinzler_logo.svg"/>
+					<br/><br/>
+					<a href="https://npmjs.com/package/rinzler-engine"><img alt="npm version badge" src="https://img.shields.io/npm/v/rinzler-engine"/></a>
+					<a href="https://npmjs.com/package/rinzler-engine"><img alt="types included badge" src="https://badgen.net/npm/types/rinzler-engine"/></a>
+					<a href="https://github.com/GitSquared/rinzler/blob/master/LICENSE"><img alt="license badge" src="https://img.shields.io/npm/l/rinzler-engine"/></a>
+					<br/><br/><br/>
+				</div>
+				<p>Rinzler is a <del>turboramjet</del> <strong>parallel processing engine</strong> for the browser.</p>
+				<p>It speeds up your web application by allowing recurring, cpu-heavy functions to execute in parallel taking full advantage of the host system&#39;s available CPU cores.</p>
+				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+					<h2>Install</h2>
+				</a>
+				<pre><code><span class="hljs-built_in">npm</span> i rinzler-engine</code></pre>
+				<p>Both ES &amp; UMD modules are bundled, as well as TypeScript types, so you should be all set.</p>
+				<p>Rinzler targets browsers with <a href="https://caniuse.com/webworkers">WebWorkers</a> and <a href="https://caniuse.com/promises">Promises</a> support (check the <a href="https://github.com/GitSquared/rinzler/raw/master/.browserslistrc">browserslistrc</a>). Most modern evergreen browsers, including Edge, should be compatible.</p>
+				<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">
+					<h2>Quick start</h2>
+				</a>
+				<p>You first need to define functions for setting up the environment (optional) and processing job payloads.
+				In the following example, we will set up a Rinzler-accelerated app that decodes <code>ArrayBuffer</code>s of utf8 text.</p>
+				<pre><code class="language-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">init</span>(<span class="hljs-params"></span>) </span>{
+    self.params = {
+        <span class="hljs-attr">encoding</span>: <span class="hljs-string">&#x27;utf-8&#x27;</span>
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processJob</span>(<span class="hljs-params">message</span>) </span>{
+    <span class="hljs-keyword">const</span> buffer = message.encodedText
+    <span class="hljs-keyword">const</span> text = <span class="hljs-keyword">new</span> TextDecoder(self.params.encoding).decode(buffer)
+    <span class="hljs-keyword">return</span> [text]
+}</code></pre>
+				<p>Next we will import Rinzler and start the engine by passing the two functions we defined above.
+				The following code is written for asynchronous contexts, but you can translate it to synchronous by using <code>.then()</code> with a callback instead of <code>await</code>.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> RinzlerEngine <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rinzler-engine&#x27;</span>
+
+<span class="hljs-keyword">const</span> engine = <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> RinzlerEngine().configureAndStart(processJob, init)</code></pre>
+				<p>Now we can actually run jobs! We&#39;ll use the <code>runJob()</code> method, which returns a <code>Promise</code> that will resolve when the job is completed.
+				Since we need to pass an <code>ArrayBuffer</code>, we&#39;ll use the second argument as a <code>Transferable[]</code> - much like in the native <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage"><code>worker.postMessage()</code> API.</a></p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> encodedText = <span class="hljs-keyword">new</span> TextEncoder().encode(<span class="hljs-string">&#x27;hello Rinzler&#x27;</span>)
+<span class="hljs-keyword">const</span> decodedResult = <span class="hljs-keyword">await</span> engine.runJob({ encodedText }, [encodedText])
+
+<span class="hljs-built_in">console</span>.log(decodedResult) <span class="hljs-comment">// &quot;hello Rinzler&quot;</span></code></pre>
+				<p>You can start as many jobs as you want, and take full advantage of ES6&#39;s asynchronous syntax (for example, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"><code>Promise.all()</code></a>).</p>
+				<p>If you use TypeScript, you can pass return types with the <code>runJob&lt;T&gt;(): Promise&lt;T&gt;</code> signature.</p>
+				<p>Under the hood, Rinzler will take care of launching Web Workers, balancing their load, and gracefully shutting them down when needed to reduce your app&#39;s memory footprint.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/rinzlerengine.html" class="tsd-kind-icon">Rinzler<wbr>Engine</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -11,8 +11,8 @@ interface ReceivedMessageEvent extends MessageEvent {
 
 /* These two will be replaced by actual code when launching the worker - see src/worker-wrapper */
 
-const init: () => Promise<void> = INIT_FUNCTION
-const work: (message: unknown, transfer?: Transferable[]) => Promise<[message: unknown, transfer?: Transferable[]]> = WORK_FUNCTION
+const init: () => Promise<void> | void = INIT_FUNCTION
+const work: (message: unknown) => Promise<[message: unknown, transfer?: Transferable[]]> | [message: unknown, transfer?: Transferable[]] = WORK_FUNCTION
 
 /* Where the actual magic happens! */
 
@@ -25,7 +25,7 @@ async function processJob(job: JobCall): Promise<void> {
 	} as JobAcceptCall)
 
 	let message: unknown
-	let transfer: Transferable[] = []
+	let transfer: Transferable[] | undefined
 	let error = false
 	try {
 		[message, transfer] = await work(job.message)
@@ -44,12 +44,11 @@ async function processJob(job: JobCall): Promise<void> {
 
 /* Attach event handlers */
 
-self.addEventListener('message', (e: ReceivedMessageEvent) => {
+self.addEventListener('message', async (e: ReceivedMessageEvent) => {
 	switch(e.data.type) {
 		case 'startup':
-			init().then(() => {
-				self.postMessage('ready')
-			})
+			await init()
+			self.postMessage('ready')
 			break
 		case 'job':
 			processJob(e.data as JobCall)
