@@ -9,7 +9,7 @@
     "build": "rollup --config",
     "lint": "eslint --color --ignore-path .gitignore \"src/**/*.ts\" \"worker-src/**/*.ts\"",
     "test": "tsc -p src && tsc -p worker-src",
-    "make-docs": "typedoc"
+    "make-docs": "typedoc && echo 'rinzler.js.org' > docs/CNAME"
   },
   "files": [
     "dist",
