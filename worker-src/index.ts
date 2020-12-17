@@ -48,7 +48,7 @@ self.addEventListener('message', async (e: ReceivedMessageEvent) => {
 	switch(e.data.type) {
 		case 'startup':
 			await init()
-			self.postMessage('ready')
+			self.postMessage({ type: 'ready' })
 			break
 		case 'job':
 			processJob(e.data as JobCall)
