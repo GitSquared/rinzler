@@ -46,7 +46,8 @@ export default class WebWorker extends RinzlerEventEmitter {
 			.replace('INIT_FUNCTION', initFunction?.toString() || 'async () => {}')
 			.replace('WORK_FUNCTION', workFunction.toString())
 
-		this.#workerRef = new Worker(populatedSrc)
+		const srcBlob = new Blob([populatedSrc], { type: 'application/javascript' })
+		this.#workerRef = new Worker(URL.createObjectURL(srcBlob))
 		this.#workerRef.addEventListener('message', this._messageHandler)
 		this.#workerRef.addEventListener('messageerror', this._errMessageHandler)
 		this.#workerRef.addEventListener('error', this._errorHandler)
