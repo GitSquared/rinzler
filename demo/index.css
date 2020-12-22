@@ -1,0 +1,255 @@
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	display: grid;
+	grid-template:
+		"reactor-container control-box sensors-box" minmax(200px, 25%)
+		"log-box wviewer wviewer" 1fr / 370px 1fr 1fr;
+	background: #f3f3f3;
+}
+
+body > div {
+	border: 3px solid #3c3c3c;
+	border-top: none;
+	position: relative;
+	padding-top: 30px;
+}
+
+#reactor-container {
+	height: 100%;
+	width: 100%;
+	grid-area: reactor-container;
+	display: flex;
+	border-right: none;
+	padding: 15px;
+}
+
+#reactor-container::before {
+	content: "Load visualization";
+	position: absolute;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+@keyframes shake {
+	from {
+		transform: translate3d(var(--shakex), var(--shakey), 0);
+	}
+	to {
+		transform: translate3d(var(--shake-x), var(--shake-y), 0);
+	}
+}
+
+#reactor {
+	--shakex: 0px;
+	--shake-x: -0px;
+	--shakey: 0px;
+	--shake-y: -0px;
+	animation: shake .04s linear alternate infinite;
+	margin: auto;
+}
+
+@keyframes spin {
+	from {
+		transform: scale3d(1.07,1.07,1.07) rotate3d(0,0,1, 0deg);
+	}
+	to {
+		transform: scale3d(1.07,1.07,1.07) rotate3d(0,0,1, 360deg);
+	}
+}
+
+#fans {
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: spin 0s linear infinite;
+}
+
+@keyframes flame {
+	from { fill: #f54100 }
+	to { fill: #ff8000 }
+}
+
+#flame {
+	--size: 0.6;
+	transform-box: fill-box;
+	transform-origin: right;
+	/* between 0.6 and 1.2 */
+	transform: scale3d(var(--size), 1, 1);
+	animation: flame .3s ease-out alternate infinite;
+	transition: transform .3s ease-out;
+}
+
+#control-box {
+	grid-area: control-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: white;
+}
+
+#control-box::before {
+	content: "Control panel";
+	position: absolute;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+#main-buttons button {
+	padding: 5px 10px;
+	font-size: 14px;
+	font-weight: bold;
+	color: white;
+	background: #3c3c3c;
+	border: none;
+	border-radius: 6px;
+	outline: none;
+}
+
+#main-buttons button:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+#main-buttons button:not(:disabled):hover {
+	box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+}
+
+#main-buttons button:not(:disabled):focus {
+	box-shadow: inset 0px -1px 4px rgba(0,0,0,0.3);
+}
+
+#power-button[data-highlight="true"] {
+	background: #fa6000;
+}
+
+button, input[type="range"] {
+	cursor: pointer;
+}
+
+#load-controller {
+	display: flex;
+	flex-direction: column;
+	border: 2px solid #3c3c3c;
+	border-radius: 5px;
+	padding: 15px;
+	margin: 15px;
+}
+
+label, span {
+	font-size: 12px;
+}
+
+#load-monitor {
+	margin-top: 5px;
+	text-align: center;
+	opacity: 0.6;
+}
+
+#sensors-box {
+	grid-area: sensors-box;
+	border-left: none;
+	background: white;
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+#sensors-box::before {
+	content: "Engine sensors";
+	position: absolute;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+#sensors-print {
+	font-size: 12px;
+}
+
+#log-box {
+	grid-area: log-box;
+	border-right: none;
+	color: white;
+	background: #282828;
+	display: flex;
+	flex-direction: column-reverse;
+	overflow: auto;
+	padding: 0 7px;
+}
+
+#log-box::before {
+	content: "Logs";
+	position: absolute;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding-bottom: 15px;
+	background: linear-gradient(to top, transparent, #282828);
+}
+
+#log-box > span {
+	border-top: 1px solid #3c3c3c;
+}
+
+#wviewer {
+	grid-area: wviewer;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+}
+
+#wviewer::before {
+	content: "Workers";
+	position: absolute;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+.worker {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: white;
+	padding: 5px;
+	border: 1px solid #3c3c3c;
+	border-radius: 7px;
+}
+
+.worker span:first-child {
+	font-weight: bold;
+	margin-bottom: 5px;
+}

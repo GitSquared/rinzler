@@ -136,6 +136,19 @@ export default class RinzlerEngine {
 	// ES6 private class methods are not yet handled correctly in TypeScript, so we use soft-private for now...
 	// Tracked here: https://github.com/microsoft/TypeScript/issues/37677
 
+	_debug(): Record<string, unknown> {
+		return {
+			maxTemp: this.#maxTemp,
+			targetTemp: this.#targetTemp,
+			temp: this._measureTemp(),
+			minTemp: this.#minTemp,
+			scheduler: this.#scheduler,
+			coolingTimer: this.#coolingTimer,
+			coolingDelay: this.#coolingDelay,
+			medianExtendPoolTime: this._measureMedianForkTime()
+		}
+	}
+
 	private _measureTemp(): number {
 		return this.#scheduler.workerPool.size
 	}
