@@ -203,7 +203,7 @@ export default class RinzlerEngine {
 		// reduce number of active workers
 		if (!override) {
 			if ((this.#targetTemp - threadCount) < this.#minTemp) throw new Error('Rinzler (internal): attempting to underheat')
-			if ((this.#targetTemp - threadCount) < this._measureTemp()) throw new Error('Rinzler (internal): engine cannot run in subzero temperatures')
+			if ((this.#targetTemp - threadCount) <= 0) throw new Error('Rinzler (internal): engine cannot run in subzero temperatures')
 		}
 
 		this.#targetTemp = this._measureTemp() - threadCount
