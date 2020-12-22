@@ -92,6 +92,7 @@ function stopSensorWatcher() {
 	document.querySelector('#sensors-print').innerText = '-no data-'
 	document.querySelector('#wviewer').innerHTML = ''
 	visualizeEngineLoad(-1)
+	setEngineShake(0)
 }
 
 const timeout = window.setTimeout
