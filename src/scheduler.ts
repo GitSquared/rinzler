@@ -18,7 +18,6 @@ export default class Scheduler {
 
 	async extendPool(worker: WebWorker): Promise<string> {
 		const id = nanoid()
-		await worker.start()
 		this.workerPool.set(id, worker)
 		return id
 	}

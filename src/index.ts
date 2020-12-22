@@ -144,27 +144,6 @@ export default class RinzlerEngine {
 		return calculateMedian(this.#extendPoolTimes)
 	}
 
-	private _idleWorkerListener(wid: string): void {
-		if (this.#coolingTimer || this.#scheduler.workerPool.size <= this.#minTemp) return
-		const worker = this.#scheduler.workerPool.get(wid)
-
-		this.#coolingTimer = [window.setTimeout(() => {
-			this.#scheduler.reducePool(wid)
-		}, this.#coolingDelay), wid]
-
-		worker?.once('jobok', () => {
-			if (this.#coolingTimer && this.#coolingTimer[1] === wid) {
-				window.clearTimeout(this.#coolingTimer[0])
-				const { wid, jobCount } = this.#scheduler.getLeastBusyWorker()
-				if (jobCount === 0) {
-					this._idleWorkerListener(wid)
-				} else {
-					this.#coolingTimer = null
-				}
-			}
-		})
-	}
-
 	private async _automaticHeatUp(): Promise<void> {
 		const { jobCount } = this.#scheduler.getLeastBusyWorker()
 		if (jobCount * this.#scheduler.measureMedianExecTime() > this._measureMedianForkTime()) {
@@ -190,8 +169,9 @@ export default class RinzlerEngine {
 			const worker = new WebWorker(...this.#workerArgs)
 			const wid = await this.#scheduler.extendPool(worker)
 			worker.on('idle', () => {
-				this._idleWorkerListener(wid)
+				this._automaticCoolDown(wid)
 			})
+			await worker.start()
 
 			const perfMarkB = performance.now()
 			this.#extendPoolTimes.push(perfMarkB - perfMarkA)
@@ -199,16 +179,55 @@ export default class RinzlerEngine {
 		}
 	}
 
-	private async _coolDown(threadCount = 1, override = false): Promise<void> {
+	private _automaticCoolDown(wid?: string): void {
+		if (!wid) {
+			const { wid, jobCount } = this.#scheduler.getLeastBusyWorker()
+			if (jobCount === 0) {
+				this._automaticCoolDown(wid)
+			}
+			return
+		}
+
+		if (this.#coolingTimer) return
+		if (this._measureTemp() <= this.#minTemp) {
+			this.#coolingTimer = null
+			return
+		}
+		const worker = this.#scheduler.workerPool.get(wid)
+		if (!worker) return
+
+		this.#coolingTimer = [window.setTimeout(async () => {
+			try {
+				await this._coolDown(1, false, wid)
+			} catch {
+				// Worker does not exist anymore or engine is already cooled
+			}
+			this.#coolingTimer = null
+			this._automaticCoolDown()
+		}, this.#coolingDelay), wid]
+
+		worker.once('jobok', () => {
+			if (this.#coolingTimer && this.#coolingTimer[1] === wid) {
+				window.clearTimeout(this.#coolingTimer[0])
+				this.#coolingTimer = null
+				// Check if there is another idle worker to launch a new timer on
+				this._automaticCoolDown()
+			}
+		})
+	}
+
+	private async _coolDown(threadCount = 1, override = false, wid?: string): Promise<void> {
 		// reduce number of active workers
 		if (!override) {
 			if ((this.#targetTemp - threadCount) < this.#minTemp) throw new Error('Rinzler (internal): attempting to underheat')
 			if ((this.#targetTemp - threadCount) <= 0) throw new Error('Rinzler (internal): engine cannot run in subzero temperatures')
 		}
 
+		if (wid && threadCount !== 1) throw new Error('Rinzler (internal): cannot cool down more than 1 workers when specifying a worked id')
+
 		this.#targetTemp = this._measureTemp() - threadCount
 		for (let i = 0; i < threadCount; i++) {
-			await this.#scheduler.reducePool()
+			(wid) ? await this.#scheduler.reducePool(wid) : await this.#scheduler.reducePool()
 		}
 	}
 }
