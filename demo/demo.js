@@ -83,7 +83,7 @@ function startSensorWatcher() {
 			`median job:       ${deb.scheduler.measureMedianExecTime()}ms\n`
 		updateWviewer(deb.scheduler.workerPool, deb.coolingTimer, deb.coolingDelay)
 		visualizeEngineLoad(deb.temp / deb.maxTemp)
-		setEngineShake(deb.scheduler.pressure / deb.maxTemp)
+		setEngineShake(deb.scheduler.pressure / (deb.maxTemp * 3))
 	}, 100)
 }
 
