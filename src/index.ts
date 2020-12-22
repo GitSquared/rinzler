@@ -123,10 +123,10 @@ export default class RinzlerEngine {
 		@category ⚠️ Dangerous
 	*/
 	async afterburner(max: number): Promise<RinzlerEngine> {
-		const oldMax = this.#maxTemp
+		const current = this._measureTemp()
 		this.#maxTemp = max
-		if (oldMax - max > 0) {
-			await this._coolDown(oldMax - max)
+		if ((current - max) > 0) {
+			await this._coolDown(current - max)
 		}
 
 		return this
