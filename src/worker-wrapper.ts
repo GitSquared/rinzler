@@ -31,12 +31,13 @@ export interface JobReturnCall<T = undefined> extends WorkerMsg {
 export default class WebWorker extends RinzlerEventEmitter {
 	/* Public props */
 
-	jobs: string[] = []
+	jobs: JobCall[] = []
 	active = false
 
 	/* Internal props */
 
 	#workerRef: Worker
+	#workingJob: string | null = null
 
 	/* Public methods */
 
@@ -60,12 +61,11 @@ export default class WebWorker extends RinzlerEventEmitter {
 		super._triggerEvent('idle')
 	}
 
-	async submitJob(job: JobCall): Promise<void> {
+	submitJob(job: JobCall): void {
 		if (!this.active) throw new Error('Rinzler WorkerWrapper: not taking new jobs')
 
-		this.#workerRef.postMessage(job, job.transfer || [])
-		await super.waitFor(`jobok-${job.id}`)
-		this.jobs.push(job.id)
+		this.jobs.push(job)
+		this._processQueue()
 	}
 
 	async shutdown(): Promise<void> {
@@ -82,6 +82,14 @@ export default class WebWorker extends RinzlerEventEmitter {
 
 	/* Internal methods */
 
+	private async _processQueue(): Promise<void> {
+		if (this.#workingJob !== null) return
+		const job = this.jobs[0]
+		this.#workingJob = job.id
+		this.#workerRef.postMessage(job, job.transfer || [])
+		await super.waitFor(`jobok-${job.id}`)
+	}
+
 	private _messageHandler(e: MessageEvent): void {
 		switch(e.data.type) {
 			case 'ready':
@@ -94,9 +102,12 @@ export default class WebWorker extends RinzlerEventEmitter {
 			case 'jobdone':
 				super._triggerEvent<JobReturnCall>('jobdone', e.data)
 				super._triggerEvent<JobReturnCall>(`jobdone-${e.data.id}`, e.data)
-				this.jobs.splice(this.jobs.indexOf(e.data.id))
+				this.jobs.splice(this.jobs.map(j => j.id).indexOf(e.data.id), 1)
+				this.#workingJob = null
 				if (this.jobs.length === 0) {
 					super._triggerEvent('idle')
+				} else {
+					this._processQueue()
 				}
 				break
 			default:

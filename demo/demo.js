@@ -117,7 +117,7 @@ function updateWviewer(pool, ct, cd) {
 		box.classList.add('worker')
 		box.appendChild(makeSpan(`${wid}`))
 		box.appendChild(makeSpan('running:'))
-		box.appendChild(makeSpan(`${w.jobs[0] || 'idle'}`))
+		box.appendChild(makeSpan(`${(w.jobs[0] && w.jobs[0].id) || 'idle'}`))
 		box.appendChild(makeSpan('in queue:'))
 		box.appendChild(makeSpan(`${(w.jobs.length === 0) ? '0' : w.jobs.length - 1}`))
 		if (ct && ct[1] === wid) {

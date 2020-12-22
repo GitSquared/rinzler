@@ -46,11 +46,12 @@ export default class Scheduler {
 			transfer
 		}
 
-		const perfMarkA = performance.now()
-
 		const { worker } = this.getLeastBusyWorker()
-		await worker.submitJob(job)
+		worker.submitJob(job)
 		this.pressure++
+
+		await worker.waitFor(`jobok-${id}`)
+		const perfMarkA = performance.now()
 		const jobResults = await worker.waitFor<JobReturnCall<T>>(`jobdone-${id}`)
 		this.pressure--
 
