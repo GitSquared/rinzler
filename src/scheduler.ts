@@ -56,7 +56,7 @@ export default class Scheduler {
 		this.pressure--
 
 		const perfMarkB = performance.now()
-		this.lastJobsExecTimes.push(perfMarkB - perfMarkA)
+		this.lastJobsExecTimes.unshift(perfMarkB - perfMarkA)
 		this.lastJobsExecTimes.splice(this.#jobsExecTimesBacklogSize, this.lastJobsExecTimes.length - this.#jobsExecTimesBacklogSize)
 
 		if (jobResults.error) {

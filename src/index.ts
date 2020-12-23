@@ -187,7 +187,7 @@ export default class RinzlerEngine {
 			await worker.start()
 
 			const perfMarkB = performance.now()
-			this.#extendPoolTimes.push(perfMarkB - perfMarkA)
+			this.#extendPoolTimes.unshift(perfMarkB - perfMarkA)
 			this.#extendPoolTimes.splice(this.#extendPoolTimesBacklogSize, this.#extendPoolTimes.length - this.#extendPoolTimesBacklogSize)
 		}
 	}
