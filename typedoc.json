@@ -1,12 +1,13 @@
 {
-  "inputFiles": ["./src/index.ts"],
-  "exclude": ["!src/index.ts"],
-  "mode": "file",
+  "entryPoints": "src/index.ts",
+  "tsconfig": "src/tsconfig.json",
   "out": "docs",
   "name": "Rinzler",
-  "ignoreCompilerErrors": true,
-  "excludeNotExported": true,
+  "theme": "minimal",
+  "highlightTheme": "light-plus",
+  "includeVersion": true,
+  "externalPattern": "worker-src/**/*.ts",
+  "excludeExternals": true,
   "excludePrivate": true,
-  "excludeProtected": true,
-  "disableSources": true
+  "excludeProtected": true
 }

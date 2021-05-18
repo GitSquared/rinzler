@@ -55,6 +55,7 @@ export default [
 				tsconfig: './src/tsconfig.json'
 			}),
 			replace({
+				preventAssignment: true,
 				/* eslint-disable-next-line @typescript-eslint/naming-convention */
 				'process.env.NODE_ENV': JSON.stringify(process.env.NODE)
 			}),

@@ -7,7 +7,7 @@
   <br/><br/><br/>
 </div>
 
-Rinzler is a ~~turboramjet~~ **parallel processing engine** for the browser.
+[Rinzler](https://github.com/GitSquared/rinzler) is a ~~turboramjet~~ **parallel processing engine** for the browser.
 
 It speeds up your web application by allowing recurring, cpu-heavy functions to execute in parallel taking full advantage of the host system's available CPU cores.
 

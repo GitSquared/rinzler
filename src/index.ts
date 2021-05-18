@@ -14,7 +14,7 @@ import calculateMedian from './median'
 	const engine = new RinzlerEngine()
 	```
 */
-export default class RinzlerEngine {
+export class RinzlerEngine {
 	/* Internal props */
 
 	#maxTemp = (navigator.hardwareConcurrency && navigator.hardwareConcurrency > 1) ? navigator.hardwareConcurrency - 1 : 1
@@ -244,3 +244,5 @@ export default class RinzlerEngine {
 		}
 	}
 }
+
+export default RinzlerEngine

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RinzlerEngine | Rinzler - v1.0.3</title>
+	<title>Rinzler - v1.0.3 | Rinzler - v1.0.3</title>
 	<meta name="description" content="Documentation for Rinzler - v1.0.3">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">:root {
@@ -2674,7 +2674,7 @@ img {
 		<div class="container">
 			<div class="table-wrap">
 				<div class="table-cell">
-					<strong><a href="../index.html">Rinzler - v1.0.3</a></strong>
+					<strong><a href="index.html">Rinzler - v1.0.3</a></strong>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -2703,343 +2703,93 @@ img {
 <nav class="tsd-navigation secondary">
 	<ul>
 		<li class=" tsd-kind-reference">
-			<a href="../modules.html#default" class="tsd-kind-icon">default</a>
+			<a href="modules.html#default" class="tsd-kind-icon">default</a>
 		</li>
-		<li class="current tsd-kind-class">
-			<a href="rinzlerengine.html" class="tsd-kind-icon">Rinzler<wbr>Engine</a>
-			<ul>
-				<li class=" tsd-kind-constructor tsd-parent-kind-class">
-					<a href="rinzlerengine.html#constructor" class="tsd-kind-icon">constructor</a>
-				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class">
-					<a href="rinzlerengine.html#_debug" class="tsd-kind-icon">_debug</a>
-				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class">
-					<a href="rinzlerengine.html#afterburner" class="tsd-kind-icon">afterburner</a>
-				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class">
-					<a href="rinzlerengine.html#configureandstart" class="tsd-kind-icon">configure<wbr>And<wbr>Start</a>
-				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class">
-					<a href="rinzlerengine.html#preheat" class="tsd-kind-icon">pre<wbr>Heat</a>
-				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-					<a href="rinzlerengine.html#runjob" class="tsd-kind-icon">run<wbr>Job</a>
-				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class">
-					<a href="rinzlerengine.html#shutdown" class="tsd-kind-icon">shutdown</a>
-				</li>
-			</ul>
+		<li class=" tsd-kind-class">
+			<a href="classes/rinzlerengine.html" class="tsd-kind-icon">Rinzler<wbr>Engine</a>
 		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
-		<section class="tsd-panel tsd-comment">
-			<div class="tsd-comment tsd-typography">
-				<div class="lead">
-					<a href="#welcome-to-rinzler39s-full-documentation" id="welcome-to-rinzler39s-full-documentation" style="color: inherit; text-decoration: none;">
-						<h3>Welcome to Rinzler&#39;s full documentation.</h3>
-					</a>
-					<p>If you&#39;re just getting started, check out the <a href="../index.html#quick-start">Quick Start guide</a>.</p>
-				</div>
-				<p>This page describes the interface of an instanted RinzlerEngine class, which you can access like so:</p>
-				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">RinzlerEngine</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;rinzler-engine&#039;</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">engine</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">RinzlerEngine</span><span style="color: #000000">()</span>
-</code></pre>
+		<div class="tsd-panel tsd-typography">
+			<div align="center">
+				<img width="60%" alt="Rinzler project logo" src="https://github.com/GitSquared/rinzler/raw/master/media/rinzler_logo.svg"/>
+				<br/><br/>
+				<a href="https://npmjs.com/package/rinzler-engine"><img alt="npm version badge" src="https://img.shields.io/npm/v/rinzler-engine"/></a>
+				<a href="https://npmjs.com/package/rinzler-engine"><img alt="types included badge" src="https://badgen.net/npm/types/rinzler-engine"/></a>
+				<a href="https://github.com/GitSquared/rinzler/blob/master/LICENSE"><img alt="license badge" src="https://img.shields.io/npm/l/rinzler-engine"/></a>
+				<br/><br/><br/>
 			</div>
-		</section>
-		<section class="tsd-panel tsd-hierarchy">
-			<h3>Hierarchy</h3>
-			<ul class="tsd-hierarchy">
-				<li>
-					<span class="target">RinzlerEngine</span>
-				</li>
-			</ul>
-		</section>
+			<p><a href="https://github.com/GitSquared/rinzler">Rinzler</a> is a <del>turboramjet</del> <strong>parallel processing engine</strong> for the browser.</p>
+			<p>It speeds up your web application by allowing recurring, cpu-heavy functions to execute in parallel taking full advantage of the host system&#39;s available CPU cores.</p>
+			<p>Check out the <a href="https://gitsquared.github.io/rinzler/classes/rinzlerengine.html">full docs</a>, try the <a href="https://rinzler-demo.vercel.app">interactive demo</a> or read on for a quick start guide.</p>
+			<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+				<h2>Install</h2>
+			</a>
+			<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #001080">rinzler</span><span style="color: #000000">-</span><span style="color: #001080">engine</span>
+</code></pre>
+			<p>Both ES &amp; UMD modules are bundled, as well as TypeScript types, so you should be all set.</p>
+			<p>Rinzler targets browsers with <a href="https://caniuse.com/webworkers">WebWorkers</a> and <a href="https://caniuse.com/promises">Promises</a> support (check the <a href="https://github.com/GitSquared/rinzler/raw/master/.browserslistrc">browserslistrc</a>). Most modern evergreen browsers, including Edge, should be compatible.</p>
+			<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">
+				<h2>Quick start</h2>
+			</a>
+			<p>You first need to define functions for setting up the environment (optional) and processing job payloads.
+			In the following example, we will set up a Rinzler-accelerated app that decodes <code>ArrayBuffer</code>s of utf8 text.</p>
+			<pre><code class="language-js"><span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">init</span><span style="color: #000000">() {</span>
+<span style="color: #000000">    </span><span style="color: #001080">self</span><span style="color: #000000">.</span><span style="color: #001080">params</span><span style="color: #000000"> = {</span>
+<span style="color: #000000">        </span><span style="color: #001080">encoding:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;utf-8&#039;</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">processJob</span><span style="color: #000000">(</span><span style="color: #001080">message</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">buffer</span><span style="color: #000000"> = </span><span style="color: #001080">message</span><span style="color: #000000">.</span><span style="color: #001080">encodedText</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">text</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextDecoder</span><span style="color: #000000">(</span><span style="color: #001080">self</span><span style="color: #000000">.</span><span style="color: #001080">params</span><span style="color: #000000">.</span><span style="color: #001080">encoding</span><span style="color: #000000">).</span><span style="color: #795E26">decode</span><span style="color: #000000">(</span><span style="color: #001080">buffer</span><span style="color: #000000">)</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> [</span><span style="color: #001080">text</span><span style="color: #000000">]</span>
+<span style="color: #000000">}</span>
+</code></pre>
+			<p>Next we will import Rinzler and start the engine by passing the two functions we defined above.
+			The following code is written for asynchronous contexts, but you can translate it to synchronous by using <code>.then()</code> with a callback instead of <code>await</code>.</p>
+			<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">RinzlerEngine</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;rinzler-engine&#039;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">engine</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">RinzlerEngine</span><span style="color: #000000">().</span><span style="color: #795E26">configureAndStart</span><span style="color: #000000">(</span><span style="color: #001080">processJob</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000">)</span>
+</code></pre>
+			<p>Now we can actually run jobs! We&#39;ll use the <code>runJob()</code> method, which returns a <code>Promise</code> that will resolve when the job is completed.
+			Since we need to pass an <code>ArrayBuffer</code>, we&#39;ll use the second argument as a <code>Transferable[]</code> - much like in the native <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage"><code>worker.postMessage()</code> API.</a></p>
+			<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">encodedText</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextEncoder</span><span style="color: #000000">().</span><span style="color: #795E26">encode</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;hello Rinzler&#039;</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">decodedResult</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">engine</span><span style="color: #000000">.</span><span style="color: #795E26">runJob</span><span style="color: #000000">({ </span><span style="color: #001080">encodedText</span><span style="color: #000000"> }, [</span><span style="color: #001080">encodedText</span><span style="color: #000000">])</span>
+
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">decodedResult</span><span style="color: #000000">) </span><span style="color: #008000">// &quot;hello Rinzler&quot;</span>
+</code></pre>
+			<p>You can start as many jobs as you want, and take full advantage of ES6&#39;s asynchronous syntax (for example, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"><code>Promise.all()</code></a>).</p>
+			<p>If you use TypeScript, you can pass return types with the <code>runJob&lt;T&gt;(): Promise&lt;T&gt;</code> signature.</p>
+			<p>Under the hood, Rinzler will take care of launching Web Workers, balancing their load, and gracefully shutting them down when needed to reduce your app&#39;s memory footprint.</p>
+		</div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
-						<h3>Constructors</h3>
+						<h3>References</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="rinzlerengine.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							<li class="tsd-kind-reference"><a href="modules.html#default" class="tsd-kind-icon">default</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
-						<h3>Lifecycle Methods</h3>
+						<h3>Classes</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-method tsd-parent-kind-class"><a href="rinzlerengine.html#configureandstart" class="tsd-kind-icon">configure<wbr>And<wbr>Start</a></li>
-							<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="rinzlerengine.html#runjob" class="tsd-kind-icon">run<wbr>Job</a></li>
-							<li class="tsd-kind-method tsd-parent-kind-class"><a href="rinzlerengine.html#shutdown" class="tsd-kind-icon">shutdown</a></li>
-						</ul>
-						<h3>Optimization Methods</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-method tsd-parent-kind-class"><a href="rinzlerengine.html#preheat" class="tsd-kind-icon">pre<wbr>Heat</a></li>
-						</ul>
-						<h3>Other Methods</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-method tsd-parent-kind-class"><a href="rinzlerengine.html#_debug" class="tsd-kind-icon">_debug</a></li>
-						</ul>
-						<h3>⚠️ Dangerous Methods</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-method tsd-parent-kind-class"><a href="rinzlerengine.html#afterburner" class="tsd-kind-icon">afterburner</a></li>
+							<li class="tsd-kind-class"><a href="classes/rinzlerengine.html" class="tsd-kind-icon">Rinzler<wbr>Engine</a></li>
 						</ul>
 					</section>
 				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Constructors</h2>
-			<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-				<a name="constructor" class="tsd-anchor"></a>
-				<h3>constructor</h3>
-				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">new <wbr>Rinzler<wbr>Engine<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-						</aside>
-						<h4 class="tsd-returns-title">Returns <a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a></h4>
-					</li>
-				</ul>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Lifecycle Methods</h2>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="configureandstart" class="tsd-anchor"></a>
-				<h3>configure<wbr>And<wbr>Start</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">configure<wbr>And<wbr>Start<span class="tsd-signature-symbol">(</span>workFunction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span>, initFunction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a><span class="tsd-signature-symbol">&gt;</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L52">index.ts:52</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>Start the engine.</p>
-							</div>
-							<p>Internally, configures the job processing functions, starts the load balancer and launches a first WebWorker.</p>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>workFunction: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>The function which will process all jobs sent to this engine instance.</p>
-									<p>May be sync or async, and should return values in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage"><code>DedicatedWorkerGlobalScope.postMessage()</code></a> format.</p>
-									<p>You can safely throw errors in this function as they will be catched and bubbled up from the engine.</p>
-								</div>
-								<ul class="tsd-parameters">
-									<li class="tsd-parameter-signature">
-										<ul class="tsd-signatures tsd-kind-type-literal">
-											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></li>
-										</ul>
-										<ul class="tsd-descriptions">
-											<li class="tsd-description">
-												<h4 class="tsd-parameters-title">Parameters</h4>
-												<ul class="tsd-parameters">
-													<li>
-														<h5>message: <span class="tsd-signature-type">unknown</span></h5>
-													</li>
-												</ul>
-												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></h4>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> initFunction: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>A function for setting up a Worker environment before it starts processing jobs. May be sync or async.</p>
-									<p>If you need to store some global state to be used later when processing jobs, it&#39;s recommended to write a property to <code>self</code>, which will be a <a href="https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorkerGlobalScope"><code>DedicatedWorkerGlobalScope</code></a>, but be careful not to override any existing prop.</p>
-								</div>
-								<ul class="tsd-parameters">
-									<li class="tsd-parameter-signature">
-										<ul class="tsd-signatures tsd-kind-type-literal">
-											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-										</ul>
-										<ul class="tsd-descriptions">
-											<li class="tsd-description">
-												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						<p>A Promise for the current engine instance. Can be used for chaining multiple instance method calls.</p>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-				<a name="runjob" class="tsd-anchor"></a>
-				<h3>run<wbr>Job</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-					<li class="tsd-signature tsd-kind-icon">run<wbr>Job&lt;T&gt;<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span>, transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L76">index.ts:76</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>Schedule, execute and get the results of a job.</p>
-							</div>
-						</div>
-						<h4 class="tsd-type-parameters-title">Type parameters</h4>
-						<ul class="tsd-type-parameters">
-							<li>
-								<h4>T = <span class="tsd-signature-type">void</span></h4>
-								<div class="tsd-comment tsd-typography">
-									<p>The return type of a successful job.</p>
-								</div>
-							</li>
-						</ul>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>message: <span class="tsd-signature-type">unknown</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>The data that will be passed to the <code>workFunction</code> as defined in <a href="rinzlerengine.html#configureandstart">configureAndStart</a>.</p>
-								</div>
-							</li>
-							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> transfer: <span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>An optional array of Transferable data to transfer to the processing function. See <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage"><code>DedicatedWorkerGlobalScope.postMessage()</code></a>.</p>
-								</div>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						<p>A Promise that will be fulfilled with T or an empty resolve when the job has been processed.</p>
-						<p>If the job threw an error when processing, the Promise will reject with an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Instance_properties"><code>Error</code></a> object containing the job&#39;s error message.</p>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="shutdown" class="tsd-anchor"></a>
-				<h3>shutdown</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">shutdown<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L88">index.ts:88</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>Stop the engine.</p>
-							</div>
-							<p>Wait for any remaining tasks to complete, shuts down all WebWorkers and sets the engine instance back to a blank state.</p>
-						</div>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-					</li>
-				</ul>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Optimization Methods</h2>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="preheat" class="tsd-anchor"></a>
-				<h3>pre<wbr>Heat</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">pre<wbr>Heat<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a><span class="tsd-signature-symbol">&gt;</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L104">index.ts:104</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>Start as much WebWorkers as currently recommended by the browser, or allowed by <a href="rinzlerengine.html#afterburner">afterburner</a>.</p>
-							</div>
-							<p>You should use this only if you know you will have to process many jobs and want to ensure that the engine is fully revved up.
-							In most cases the automatic &quot;temperature&quot; adjustement will provide a good balance between performance and memory footprint.</p>
-							<p>You should immediatly follow this call with your actual <a href="rinzlerengine.html#runjob">runJob</a> calls, otherwise the engine might start to cool itself down automatically.</p>
-						</div>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						<p>A Promise for the current engine instance. Can be used for chaining multiple instance method calls.</p>
-					</li>
-				</ul>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Other Methods</h2>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="_debug" class="tsd-anchor"></a>
-				<h3>_debug</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">_debug<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L139">index.ts:139</a></li>
-							</ul>
-						</aside>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h4>
-					</li>
-				</ul>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group ">
-			<h2>⚠️ Dangerous Methods</h2>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="afterburner" class="tsd-anchor"></a>
-				<h3>afterburner</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">afterburner<span class="tsd-signature-symbol">(</span>max<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a><span class="tsd-signature-symbol">&gt;</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L125">index.ts:125</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p><strong>WARNING: Possibly unstable.</strong></p>
-							</div>
-							<p>Overrides the maximum number of WebWorkers Rinzler will attempt to spawn.</p>
-							<p>Normally this is retrieved from <a href="https://developer.mozilla.org/en-US/docs/Web/API/NavigatorConcurrentHardware/hardwareConcurrency"><code>navigator.hardwareConcurrency</code></a>, which is a browser-provided indicator of how many Workers a browsing context should use, with respect to the browser&#39;s own limitations and the number of available CPU cores on the host hardware.</p>
-							<p>By going beyond that number you may crash the browser tab, get unexpected errors, or a considerable boost in parallelized performance.
-							Aim for the moon, right?</p>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>max: <span class="tsd-signature-type">number</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>The new maximum number of WebWorkers this instance will manage. If set to lower than the current max, extra Workers will be gracefully shut down to respect the new limit.</p>
-								</div>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						<p>A Promise for the current engine instance. Can be used for chaining multiple instance method calls.</p>
-					</li>
-				</ul>
+			<h2>References</h2>
+			<section class="tsd-panel tsd-member tsd-kind-reference">
+				<a name="default" class="tsd-anchor"></a>
+				<h3>default</h3>
+				Renames and exports <a href="classes/rinzlerengine.html">RinzlerEngine</a>
 			</section>
 		</section>
 		<footer class="with-border-bottom">
