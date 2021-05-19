@@ -1,18 +1,15 @@
-/* TypeScript interfaces & helpers */
-
-import './worker.d.ts'
-import type { JobCall, JobAcceptCall, JobReturnCall } from '../src/worker-wrapper'
+import type { InitCall, JobCall, JobAcceptCall, JobReturnCall, WorkerInitFunction, WorkerFunction, WorkerFunctionTransferArgs } from '../src/worker-wrapper'
 
 interface ReceivedMessageEvent extends MessageEvent {
-	data: {
-		type: 'startup' | 'job'
-	}
+	data: InitCall | JobCall
 }
+
+declare const self: DedicatedWorkerGlobalScope
 
 /* These two will be replaced by actual code when launching the worker - see src/worker-wrapper */
 
-const init: () => Promise<void> | void = INIT_FUNCTION
-const work: (message: unknown) => Promise<[message: unknown, transfer?: Transferable[]]> | [message: unknown, transfer?: Transferable[]] = WORK_FUNCTION
+declare const INIT_FUNCTION: WorkerInitFunction
+declare const WORK_FUNCTION: WorkerFunction
 
 /* Where the actual magic happens! */
 
@@ -24,11 +21,10 @@ async function processJob(job: JobCall): Promise<void> {
 		id
 	} as JobAcceptCall)
 
-	let message: unknown
-	let transfer: Transferable[] | undefined
+	let [message, transfer]: WorkerFunctionTransferArgs = []
 	let error = false
 	try {
-		[message, transfer] = await work(job.message)
+		[message, transfer] = await WORK_FUNCTION(job.message)
 	} catch(err) {
 		message = err.message
 		error = true
@@ -46,12 +42,12 @@ async function processJob(job: JobCall): Promise<void> {
 
 self.addEventListener('message', async (e: ReceivedMessageEvent) => {
 	switch(e.data.type) {
-		case 'startup':
-			await init()
+		case 'init':
+			await INIT_FUNCTION(e.data)
 			self.postMessage({ type: 'ready' })
 			break
 		case 'job':
-			processJob(e.data as JobCall)
+			processJob(e.data)
 			break
 		default:
 			throw new Error('Rinzler Worker: unknown message received')

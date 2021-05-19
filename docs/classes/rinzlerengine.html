@@ -2731,6 +2731,15 @@ img {
 				</li>
 			</ul>
 		</li>
+		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+			<a href="../modules.html#workerfunction" class="tsd-kind-icon">Worker<wbr>Function</a>
+		</li>
+		<li class=" tsd-kind-type-alias">
+			<a href="../modules.html#workerfunctiontransferargs" class="tsd-kind-icon">Worker<wbr>Function<wbr>Transfer<wbr>Args</a>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+			<a href="../modules.html#workerinitfunction" class="tsd-kind-icon">Worker<wbr>Init<wbr>Function</a>
+		</li>
 	</ul>
 </nav>
 <div class="container container-main">
@@ -2814,67 +2823,40 @@ img {
 				<a name="configureandstart" class="tsd-anchor"></a>
 				<h3>configure<wbr>And<wbr>Start</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">configure<wbr>And<wbr>Start<span class="tsd-signature-symbol">(</span>workFunction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span>, initFunction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">configure<wbr>And<wbr>Start<span class="tsd-signature-symbol">(</span>workFunction<span class="tsd-signature-symbol">: </span><a href="../modules.html#workerfunction" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span>, initFunction<span class="tsd-signature-symbol">?: </span><a href="../modules.html#workerinitfunction" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerInitFunction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span>, initArgs<span class="tsd-signature-symbol">?: </span><a href="../modules.html#workerfunctiontransferargs" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunctionTransferArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L52">index.ts:52</a></li>
+								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/20e50a5/src/index.ts#L51">index.ts:51</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
 								<p>Start the engine.</p>
 							</div>
-							<p>Internally, configures the job processing functions, starts the load balancer and launches a first WebWorker.</p>
+							<p>Internally, configures the job processing functions, starts the load balancer and launches a first Web Worker.</p>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>workFunction: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></h5>
+								<h5>workFunction: <a href="../modules.html#workerfunction" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<p>The function which will process all jobs sent to this engine instance.</p>
-									<p>May be sync or async, and should return values in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage"><code>DedicatedWorkerGlobalScope.postMessage()</code></a> format.</p>
-									<p>You can safely throw errors in this function as they will be catched and bubbled up from the engine.</p>
 								</div>
-								<ul class="tsd-parameters">
-									<li class="tsd-parameter-signature">
-										<ul class="tsd-signatures tsd-kind-type-literal">
-											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></li>
-										</ul>
-										<ul class="tsd-descriptions">
-											<li class="tsd-description">
-												<h4 class="tsd-parameters-title">Parameters</h4>
-												<ul class="tsd-parameters">
-													<li>
-														<h5>message: <span class="tsd-signature-type">unknown</span></h5>
-													</li>
-												</ul>
-												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></h4>
-											</li>
-										</ul>
-									</li>
-								</ul>
 							</li>
 							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> initFunction: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> initFunction: <a href="../modules.html#workerinitfunction" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerInitFunction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								<div class="tsd-comment tsd-typography">
-									<p>A function for setting up a Worker environment before it starts processing jobs. May be sync or async.</p>
-									<p>If you need to store some global state to be used later when processing jobs, it&#39;s recommended to write a property to <code>self</code>, which will be a <a href="https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorkerGlobalScope"><code>DedicatedWorkerGlobalScope</code></a>, but be careful not to override any existing prop.</p>
+									<p>A function for setting up a Web Worker environment before it starts processing jobs. May be sync or async.</p>
 								</div>
-								<ul class="tsd-parameters">
-									<li class="tsd-parameter-signature">
-										<ul class="tsd-signatures tsd-kind-type-literal">
-											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-										</ul>
-										<ul class="tsd-descriptions">
-											<li class="tsd-description">
-												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-											</li>
-										</ul>
-									</li>
-								</ul>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> initArgs: <a href="../modules.html#workerfunctiontransferargs" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunctionTransferArgs</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Dynamic data to send to the initFunction to set up the environment of new Web Worker instances.</p>
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rinzlerengine.html" class="tsd-signature-type" data-tsd-kind="Class">RinzlerEngine</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -2886,13 +2868,13 @@ img {
 				<a name="runjob" class="tsd-anchor"></a>
 				<h3>run<wbr>Job</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-					<li class="tsd-signature tsd-kind-icon">run<wbr>Job&lt;T&gt;<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span>, transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">run<wbr>Job&lt;T&gt;<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><a href="../modules.html#workerfunctiontransferargs" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunctionTransferArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L76">index.ts:76</a></li>
+								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/20e50a5/src/index.ts#L71">index.ts:71</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2905,23 +2887,14 @@ img {
 							<li>
 								<h4>T = <span class="tsd-signature-type">void</span></h4>
 								<div class="tsd-comment tsd-typography">
-									<p>The return type of a successful job.</p>
+									<p>The return type of a successful job - meaning what the <a href="../modules.html#workerfunction"><code>WorkerFunction</code></a> will return, with <code>Transferable</code> objects inlined.</p>
 								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>message: <span class="tsd-signature-type">unknown</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>The data that will be passed to the <code>workFunction</code> as defined in <a href="rinzlerengine.html#configureandstart">configureAndStart</a>.</p>
-								</div>
-							</li>
-							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> transfer: <span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span></h5>
-								<div class="tsd-comment tsd-typography">
-									<p>An optional array of Transferable data to transfer to the processing function. See <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage"><code>DedicatedWorkerGlobalScope.postMessage()</code></a>.</p>
-								</div>
+								<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <a href="../modules.html#workerfunctiontransferargs" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunctionTransferArgs</a></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -2940,7 +2913,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L88">index.ts:88</a></li>
+								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/20e50a5/src/index.ts#L83">index.ts:83</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2966,7 +2939,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L104">index.ts:104</a></li>
+								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/20e50a5/src/index.ts#L99">index.ts:99</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2995,7 +2968,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L139">index.ts:139</a></li>
+								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/20e50a5/src/index.ts#L134">index.ts:134</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -3015,7 +2988,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/29db96b/src/index.ts#L125">index.ts:125</a></li>
+								<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/20e50a5/src/index.ts#L120">index.ts:120</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">

@@ -1,6 +1,9 @@
+import type { WorkerFunction, WorkerInitFunction, WorkerFunctionTransferArgs } from './worker-wrapper'
 import Scheduler from './scheduler'
 import WebWorker from './worker-wrapper'
 import calculateMedian from './median'
+
+export type { WorkerFunction, WorkerInitFunction, WorkerFunctionTransferArgs }
 
 /**
 	### Welcome to Rinzler's full documentation.
@@ -20,7 +23,7 @@ export class RinzlerEngine {
 	#maxTemp = (navigator.hardwareConcurrency && navigator.hardwareConcurrency > 1) ? navigator.hardwareConcurrency - 1 : 1
 	#targetTemp = -1
 	#minTemp = 1
-	#workerArgs: Parameters<RinzlerEngine['configureAndStart']> | undefined
+	#workerArgs?: ConstructorParameters<typeof WebWorker>
 	#scheduler: Scheduler = new Scheduler()
 	#coolingTimer: [number, string] | null = null
 	#extendPoolTimes: number[] = []
@@ -33,26 +36,22 @@ export class RinzlerEngine {
 	/**
 		Start the engine.
 
-		Internally, configures the job processing functions, starts the load balancer and launches a first WebWorker.
+		Internally, configures the job processing functions, starts the load balancer and launches a first Web Worker.
 
 		@param workFunction The function which will process all jobs sent to this engine instance.
 
-			May be sync or async, and should return values in the [`DedicatedWorkerGlobalScope.postMessage()`](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage) format.
+		@param initFunction A function for setting up a Web Worker environment before it starts processing jobs. May be sync or async.
 
-			You can safely throw errors in this function as they will be catched and bubbled up from the engine.
-
-		@param initFunction A function for setting up a Worker environment before it starts processing jobs. May be sync or async.
-
-			If you need to store some global state to be used later when processing jobs, it's recommended to write a property to `self`, which will be a [`DedicatedWorkerGlobalScope`](https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorkerGlobalScope), but be careful not to override any existing prop.
+		@param initArgs Dynamic data to send to the initFunction to set up the environment of new Web Worker instances.
 
 		@returns A Promise for the current engine instance. Can be used for chaining multiple instance method calls.
 
 		@category Lifecycle
 	*/
-	async configureAndStart(workFunction: (message: unknown) => Promise<[message: unknown, transfer?: Transferable[]]> | [message: unknown, transfer?: Transferable[]], initFunction?: () => Promise<void> | void): Promise<RinzlerEngine> {
+	async configureAndStart(workFunction: WorkerFunction, initFunction?: WorkerInitFunction, initArgs?: WorkerFunctionTransferArgs): Promise<RinzlerEngine> {
 		if (this.#scheduler.workerPool.size) throw new Error('Rinzler: engine is already started, please use shutdown() first')
 
-		this.#workerArgs = [workFunction, initFunction]
+		this.#workerArgs = [workFunction, initFunction, initArgs]
 		this.#targetTemp = 0
 		await this._heatUp()
 		return this
@@ -61,11 +60,7 @@ export class RinzlerEngine {
 	/**
 		Schedule, execute and get the results of a job.
 
-		@typeParam T The return type of a successful job.
-
-		@param message The data that will be passed to the `workFunction` as defined in {@link configureAndStart}.
-
-		@param transfer An optional array of Transferable data to transfer to the processing function. See [`DedicatedWorkerGlobalScope.postMessage()`](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage).
+		@typeParam T The return type of a successful job - meaning what the {@linkcode WorkerFunction} will return, with `Transferable` objects inlined.
 
 		@returns A Promise that will be fulfilled with T or an empty resolve when the job has been processed.
 
@@ -73,9 +68,9 @@ export class RinzlerEngine {
 
 		@category Lifecycle
 	*/
-	async runJob<T = void>(message: unknown, transfer?: Transferable[]): Promise<T> {
+	async runJob<T = void>(...args: WorkerFunctionTransferArgs): Promise<T> {
 		await this._automaticHeatUp()
-		return this.#scheduler.submitJob<T>(message, transfer)
+		return this.#scheduler.submitJob<T>(args[0], args[1])
 	}
 
 	/**

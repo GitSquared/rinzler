@@ -1,32 +1,67 @@
 import RinzlerEventEmitter from './event-emitter'
 import src from '../dist/internals/worker-src.js'
 
-interface WorkerMsg {
+interface InternalWorkerMsg {
 	type: string
 }
 
-export interface StartupCall extends WorkerMsg {
-	type: 'startup'
-}
-
-export interface JobCall extends WorkerMsg {
-	type: 'job'
-	id: string
-	message: unknown
+export interface InitCall extends InternalWorkerMsg {
+	type: 'init'
+	message?: unknown
 	transfer?: Transferable[]
 }
 
-export interface JobAcceptCall extends WorkerMsg {
+export interface JobCall extends InternalWorkerMsg {
+	type: 'job'
+	id: string
+	message?: unknown
+	transfer?: Transferable[]
+}
+
+export interface JobAcceptCall extends InternalWorkerMsg {
 	type: 'jobok'
 	id: string
 }
 
-export interface JobReturnCall<T = undefined> extends WorkerMsg {
+export interface JobReturnCall<T = undefined> extends InternalWorkerMsg {
 	type: 'jobdone'
 	id: string
 	error: boolean
 	message: T
 }
+
+/**
+	Interface for passing messages and `Transferable` data to Web Worker instances.
+
+	See [`DedicatedWorkerGlobalScope.postMessage()`](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage) for more details.
+*/
+export type WorkerFunctionTransferArgs = [message?: unknown, transfer?: Transferable[]]
+
+/**
+	A function for setting up a Web Worker environment before it starts processing jobs. May be sync or async.
+	Worker functions cannot use variables defined outside of their block, because the function code itself is inlined
+	and written to the Web Worker source code.
+
+	You should pass any dynamic data that won't change between jobs using `initArgs` in {@link RinzlerEngine.configureAndStart},
+	and parse/use them in the init function.
+
+	If you need to store some global state to be used later when processing jobs, you can write a property to `self`, which will be a [`DedicatedWorkerGlobalScope`](https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorkerGlobalScope).
+	But be careful not to overwrite any browser-initialized properties in there!
+
+	@typeParam T Anything passed as `initArgs` in {@link RinzlerEngine.configureAndStart}, with `Transferable` objects inlined.
+*/
+export type WorkerInitFunction<T = unknown> = (message?: T) => Promise<void> | void
+
+/**
+	The function which will process all jobs sent to this engine instance. May be sync or async.
+	Worker functions cannot use variables defined outside of their block, because the function code itself is inlined
+	and written to the Web Worker source code.
+
+	You can safely throw errors in this function as they will be catched and bubbled up from the engine.
+
+	@typeParam T Anything passed in {@link RinzlerEngine.runJob}, with `Transferable` objects inlined.
+*/
+export type WorkerFunction<T = unknown> = (message?: T) => Promise<WorkerFunctionTransferArgs> | WorkerFunctionTransferArgs
 
 export default class WebWorker extends RinzlerEventEmitter {
 	/* Public props */
@@ -38,24 +73,33 @@ export default class WebWorker extends RinzlerEventEmitter {
 
 	#workerRef: Worker
 	#workingJob: string | null = null
+	#initArgs?: WorkerFunctionTransferArgs
 
 	/* Public methods */
 
-	constructor(workFunction: (message: unknown) => Promise<[message: unknown, transfer?: Transferable[]]> | [message: unknown, transfer?: Transferable[]], initFunction?: () => Promise<void> | void) {
+	constructor(workFunction: WorkerFunction, initFunction?: WorkerInitFunction, initArgs?: WorkerFunctionTransferArgs) {
 		super()
 		const populatedSrc = src
 			.replace('INIT_FUNCTION', initFunction?.toString() || 'async () => {}')
 			.replace('WORK_FUNCTION', workFunction.toString())
 
 		const srcBlob = new Blob([populatedSrc], { type: 'application/javascript' })
+
 		this.#workerRef = new Worker(URL.createObjectURL(srcBlob))
 		this.#workerRef.addEventListener('message', this._messageHandler.bind(this))
 		this.#workerRef.addEventListener('messageerror', this._errMessageHandler.bind(this))
 		this.#workerRef.addEventListener('error', this._errorHandler.bind(this))
+
+		this.#initArgs = initArgs
 	}
 
 	async start(): Promise<void> {
-		this.#workerRef.postMessage({ type: 'startup' })
+		const initMsg: InitCall = {
+			type: 'init',
+			message: this.#initArgs && this.#initArgs[0],
+			transfer: this.#initArgs && this.#initArgs[1]
+		}
+		this.#workerRef.postMessage(initMsg)
 		await super.waitFor('ready')
 		this.active = true
 		super._triggerEvent('idle')

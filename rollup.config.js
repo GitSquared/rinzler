@@ -82,6 +82,7 @@ export default [
 				file: pkg.main,
 				name: 'RinzlerEngine',
 				sourcemap: true,
+				exports: 'named',
 				format: 'umd',
 				plugins: [terser()]
 			},
