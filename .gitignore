@@ -1,3 +1,6 @@
+demo/dist
+.vercel
+
 # Logs
 logs
 *.log
