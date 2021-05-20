@@ -64,3 +64,5 @@ You can start as many jobs as you want, and take full advantage of ES6's asynchr
 If you use TypeScript, you can pass return types with the `runJob<T>(): Promise<T>` signature.
 
 Under the hood, Rinzler will take care of launching Web Workers, balancing their load, and gracefully shutting them down when needed to reduce your app's memory footprint.
+
+Web Worker instances will be destroyed by the browser when the page exits, but you can schedule a graceful shutdown yourself using `engine.shutdown()`, which returns a `Promise` that will resolve once all currently active jobs have completed and all workers have been stopped.
