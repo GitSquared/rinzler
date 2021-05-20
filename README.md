@@ -84,3 +84,10 @@ If you use TypeScript, you can pass return types with the `runJob<T>(): Promise<
 Under the hood, Rinzler will take care of launching Web Workers, balancing their load, and gracefully shutting them down when needed to reduce your app's memory footprint.
 
 Web Worker instances will be destroyed by the browser when the page exits, but you can schedule a graceful shutdown yourself using `engine.shutdown()`, which returns a `Promise` that will resolve once all currently active jobs have completed and all workers have been stopped.
+
+## Licensing
+Rinzler is licensed under the [MIT License](https://github.com/GitSquared/rinzler/blob/master/LICENSE). You may integrate it in commercial applications.
+
+---
+
+###### © 2020-2021 Gabriel Saillard <gabriel@saillard.dev>
