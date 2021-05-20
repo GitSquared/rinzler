@@ -9,9 +9,27 @@
 
 [Rinzler](https://github.com/GitSquared/rinzler) is a ~~turboramjet~~ **parallel processing engine** for the browser.
 
-It speeds up your web application by allowing recurring, cpu-heavy functions to execute in parallel taking full advantage of the host system's available CPU cores.
+It speeds up your web application by allowing recurring functions to execute in parallel taking full advantage of the host system's available processing power.
 
-Check out the [full docs](https://gitsquared.github.io/rinzler/classes/rinzlerengine.html), try the [interactive demo](https://rinzler-demo.vercel.app) or read on for a quick start guide.
+Check out the [full docs](https://gitsquared.github.io/rinzler/classes/rinzlerengine.html), try the [interactive demo](https://rinzler-demo.vercel.app) or read on for a high-level overview and how to get started with Rinzler.
+
+## Concept
+Most devices have a processor unit (CPU) with multiple *cores*, meaning that they are capable of working on multiple tasks at the same time.
+Modern operating systems with multi-tasking functionality (e.g the ability to run & manage multiple programs/windows) have a special component called a *thread scheduler*.
+
+Each program you run can have multiple *threads*, and the scheduler's job is to distribute threads to the CPU's cores.
+
+A web page's JavaScript normally executes on one thread, meaning at any given time it will only use at most one CPU core to execute. In most cases this is fine, and also helps ensures other tabs in the user's browser, or other programs, can also keep running smoothly.
+
+However, some web applications might need to process a lot of data, or do a lot of expensive computing ops, and therefore can benefit from spreading work across all the available cores of the host machine.
+
+Rinzler is a tool to do just that, in the simplest way possible - just define functions to run in parallel, and use native ES6 [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) to run & manage jobs.
+
+<div align="center">
+  <img width="80%" alt="Infographic explaining how Rinzler allows you to use more CPU cores" src="https://github.com/GitSquared/rinzler/raw/master/media/infographic.png"/>
+</div>
+
+Internally, it leverages [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API), which is a standard Web API for executing code in separate threads. It also includes a custom scheduler that handles spawning new Workers when necessary, sharing work between them, and shutting them down when they're not used.
 
 ## Install
 ```
@@ -23,8 +41,8 @@ Both ES & UMD modules are bundled, as well as TypeScript types, so you should be
 Rinzler targets browsers with [WebWorkers](https://caniuse.com/webworkers) and [Promises](https://caniuse.com/promises) support (check the [browserslistrc](https://github.com/GitSquared/rinzler/raw/master/.browserslistrc)). Most modern evergreen browsers, including Edge, should be compatible.
 
 ## Quick start
-You first need to define functions for setting up the environment (optional) and processing job payloads.
-In the following example, we will set up a Rinzler-accelerated app that decodes `ArrayBuffer`s of utf8 text.
+You first need to define functions for setting up the environment of new Workers (optional) and processing job payloads.
+In the following example, we will set up a Rinzler-accelerated app that decodes `ArrayBuffer`s of text.
 
 ```js
 function init() {
