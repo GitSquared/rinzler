@@ -1,4 +1,4 @@
 #!/bin/sh
 
 mkdir dist
-cp -R ../dist dist
+cp -R ../dist/* dist/
