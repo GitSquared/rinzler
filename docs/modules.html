@@ -2702,9 +2702,6 @@ img {
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
-		<li class=" tsd-kind-reference">
-			<a href="modules.html#default" class="tsd-kind-icon">default</a>
-		</li>
 		<li class=" tsd-kind-class">
 			<a href="classes/rinzlerengine.html" class="tsd-kind-icon">Rinzler<wbr>Engine</a>
 		</li>
@@ -2773,17 +2770,12 @@ img {
 			<p>You can start as many jobs as you want, and take full advantage of ES6&#39;s asynchronous syntax (for example, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"><code>Promise.all()</code></a>).</p>
 			<p>If you use TypeScript, you can pass return types with the <code>runJob&lt;T&gt;(): Promise&lt;T&gt;</code> signature.</p>
 			<p>Under the hood, Rinzler will take care of launching Web Workers, balancing their load, and gracefully shutting them down when needed to reduce your app&#39;s memory footprint.</p>
+			<p>Web Worker instances will be destroyed by the browser when the page exits, but you can schedule a graceful shutdown yourself using <code>engine.shutdown()</code>, which returns a <code>Promise</code> that will resolve once all currently active jobs have completed and all workers have been stopped.</p>
 		</div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
-					<section class="tsd-index-section ">
-						<h3>References</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-reference"><a href="modules.html#default" class="tsd-kind-icon">default</a></li>
-						</ul>
-					</section>
 					<section class="tsd-index-section ">
 						<h3>Classes</h3>
 						<ul class="tsd-index-list">
@@ -2802,14 +2794,6 @@ img {
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
-			<h2>References</h2>
-			<section class="tsd-panel tsd-member tsd-kind-reference">
-				<a name="default" class="tsd-anchor"></a>
-				<h3>default</h3>
-				Renames and exports <a href="classes/rinzlerengine.html">RinzlerEngine</a>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Type aliases</h2>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 				<a name="workerfunction" class="tsd-anchor"></a>
@@ -2817,7 +2801,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Worker<wbr>Function&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="modules.html#workerfunctiontransferargs" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunctionTransferArgs</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="modules.html#workerfunctiontransferargs" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunctionTransferArgs</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/20e50a5/src/worker-wrapper.ts#L64">worker-wrapper.ts:64</a></li>
+						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/e433a00/src/worker-wrapper.ts#L64">worker-wrapper.ts:64</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2865,7 +2849,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Worker<wbr>Function<wbr>Transfer<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/20e50a5/src/worker-wrapper.ts#L38">worker-wrapper.ts:38</a></li>
+						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/e433a00/src/worker-wrapper.ts#L38">worker-wrapper.ts:38</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2881,7 +2865,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Worker<wbr>Init<wbr>Function&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/20e50a5/src/worker-wrapper.ts#L53">worker-wrapper.ts:53</a></li>
+						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/e433a00/src/worker-wrapper.ts#L53">worker-wrapper.ts:53</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">

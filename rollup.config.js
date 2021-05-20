@@ -32,12 +32,12 @@ export default [
 			progress(),
 			analyze({
 				summaryOnly: true
-			})
+			}),
+			terser()
 		],
 		output: {
 			file: 'dist/internals/worker-src.js',
-			format: 'iife',
-			plugins: [terser()]
+			format: 'iife'
 		}
 	},
 	{
@@ -75,22 +75,21 @@ export default [
 			progress(),
 			analyze({
 				summaryOnly: true
-			})
+			}),
+			terser()
 		],
 		output: [
 			{
 				file: pkg.main,
 				name: 'RinzlerEngine',
 				sourcemap: true,
-				exports: 'named',
-				format: 'umd',
-				plugins: [terser()]
+				exports: 'default',
+				format: 'umd'
 			},
 			{
 				file: pkg.module,
 				sourcemap: true,
-				format: 'esm',
-				plugins: [terser()]
+				format: 'esm'
 			}
 		]
 	},

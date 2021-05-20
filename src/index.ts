@@ -17,7 +17,7 @@ export type { WorkerFunction, WorkerInitFunction, WorkerFunctionTransferArgs }
 	const engine = new RinzlerEngine()
 	```
 */
-export class RinzlerEngine {
+export default class RinzlerEngine {
 	/* Internal props */
 
 	#maxTemp = (navigator.hardwareConcurrency && navigator.hardwareConcurrency > 1) ? navigator.hardwareConcurrency - 1 : 1
@@ -239,5 +239,3 @@ export class RinzlerEngine {
 		}
 	}
 }
-
-export default RinzlerEngine
