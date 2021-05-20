@@ -43,7 +43,7 @@ async function processJob(job: JobCall): Promise<void> {
 self.addEventListener('message', async (e: ReceivedMessageEvent) => {
 	switch(e.data.type) {
 		case 'init':
-			await INIT_FUNCTION(e.data)
+			await INIT_FUNCTION(e.data.message)
 			self.postMessage({ type: 'ready' })
 			break
 		case 'job':
