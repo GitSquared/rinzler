@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Rinzler - v1.0.3 | Rinzler - v1.0.3</title>
-	<meta name="description" content="Documentation for Rinzler - v1.0.3">
+	<title>Rinzler - v1.1.0 | Rinzler - v1.1.0</title>
+	<meta name="description" content="Documentation for Rinzler - v1.1.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">:root {
   --color-background: #fdfdfd;
@@ -2674,7 +2674,7 @@ img {
 		<div class="container">
 			<div class="table-wrap">
 				<div class="table-cell">
-					<strong><a href="index.html">Rinzler - v1.0.3</a></strong>
+					<strong><a href="index.html">Rinzler - v1.1.0</a></strong>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -2728,8 +2728,21 @@ img {
 				<br/><br/><br/>
 			</div>
 			<p><a href="https://github.com/GitSquared/rinzler">Rinzler</a> is a <del>turboramjet</del> <strong>parallel processing engine</strong> for the browser.</p>
-			<p>It speeds up your web application by allowing recurring, cpu-heavy functions to execute in parallel taking full advantage of the host system&#39;s available CPU cores.</p>
-			<p>Check out the <a href="https://gitsquared.github.io/rinzler/classes/rinzlerengine.html">full docs</a>, try the <a href="https://rinzler-demo.vercel.app">interactive demo</a> or read on for a quick start guide.</p>
+			<p>It speeds up your web application by allowing recurring functions to execute in parallel taking full advantage of the host system&#39;s available processing power.</p>
+			<p>Check out the <a href="https://gitsquared.github.io/rinzler/classes/rinzlerengine.html">full docs</a>, try the <a href="https://rinzler-demo.vercel.app">interactive demo</a> or read on for a high-level overview and a quick start guide.</p>
+			<a href="#concept" id="concept" style="color: inherit; text-decoration: none;">
+				<h2>Concept</h2>
+			</a>
+			<p>Most devices have a processor unit (CPU) with multiple <em>cores</em>, meaning that they are capable of working on multiple tasks at the same time.
+			Modern operating systems with multi-tasking functionality (e.g the ability to run &amp; manage multiple programs/windows) have a special component called a <em>thread scheduler</em>.</p>
+			<p>Each program you run can have multiple <em>threads</em>, and the scheduler&#39;s job is to distribute threads to the CPU&#39;s cores.</p>
+			<p>A web page&#39;s JavaScript normally executes on a single thread, meaning it will never use more than one CPU core. In most cases this is fine, and also helps ensures other tabs in the user&#39;s browser, or other programs, can also keep running smoothly.</p>
+			<p>However, some web applications might need to process a lot of data, or do a lot of expensive computing, and therefore can benefit from spreading work across all the available cores of the host machine.</p>
+			<p>Rinzler is a tool to do just that, in the simplest way possible - just define functions to run in parallel, and use native ES6 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises">Promises</a> to run &amp; manage parallelized jobs.</p>
+			<div align="center">
+				<img width="90%" alt="Infographic explaining how Rinzler allows you to use more CPU cores" src="https://github.com/GitSquared/rinzler/raw/master/media/infographic.png"/>
+			</div>
+			<p>Internally, it leverages <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">Web Workers</a>, which is a standard Web API for executing code in separate threads. It also includes a custom scheduler that handles spawning new Workers when necessary, sharing work between them, and shutting them down when they&#39;re not used.</p>
 			<a href="#install" id="install" style="color: inherit; text-decoration: none;">
 				<h2>Install</h2>
 			</a>
@@ -2740,37 +2753,76 @@ img {
 			<a href="#quick-start" id="quick-start" style="color: inherit; text-decoration: none;">
 				<h2>Quick start</h2>
 			</a>
-			<p>You first need to define functions for setting up the environment (optional) and processing job payloads.
-			In the following example, we will set up a Rinzler-accelerated app that decodes <code>ArrayBuffer</code>s of utf8 text.</p>
-			<pre><code class="language-js"><span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">init</span><span style="color: #000000">() {</span>
-<span style="color: #000000">    </span><span style="color: #001080">self</span><span style="color: #000000">.</span><span style="color: #001080">params</span><span style="color: #000000"> = {</span>
-<span style="color: #000000">        </span><span style="color: #001080">encoding:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;utf-8&#039;</span>
-<span style="color: #000000">    }</span>
-<span style="color: #000000">}</span>
+			<p>In the following example, we will set up a Rinzler-accelerated app that decodes <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer"><code>ArrayBuffer</code></a>s of text.</p>
+			<a href="#0-environment-initialization-optional" id="0-environment-initialization-optional" style="color: inherit; text-decoration: none;">
+				<h3>0. Environment initialization (optional)</h3>
+			</a>
+			<p>In most real-life use cases, the job processing you will offload to Rinzler will depend on some dynamic variable in the context of your app: in this example, the original encoding of the text we want to decode.</p>
+			<p>The processing functions you will pass to Rinzler <em><strong>cannot contain references to external variables</strong></em>, because their source code will be extracted and printed in the Worker instances&#39; source.</p>
+			<p>To work around this limitation, Rinzler allows you to setup an &quot;initialization&quot; function and pass it a payload. This function &amp; payload will be run on each new Web Worker instance before it starts processing your jobs.</p>
+			<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">initOptions</span><span style="color: #000000"> = [{</span>
+<span style="color: #000000">  </span><span style="color: #001080">encoding:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;utf-8&#039;</span><span style="color: #000000"> </span><span style="color: #008000">// We&#039;re just going to print this here, but in real life you would probably get this option from user input.</span>
+<span style="color: #000000">}]</span>
 
-<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">processJob</span><span style="color: #000000">(</span><span style="color: #001080">message</span><span style="color: #000000">) {</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">buffer</span><span style="color: #000000"> = </span><span style="color: #001080">message</span><span style="color: #000000">.</span><span style="color: #001080">encodedText</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">text</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextDecoder</span><span style="color: #000000">(</span><span style="color: #001080">self</span><span style="color: #000000">.</span><span style="color: #001080">params</span><span style="color: #000000">.</span><span style="color: #001080">encoding</span><span style="color: #000000">).</span><span style="color: #795E26">decode</span><span style="color: #000000">(</span><span style="color: #001080">buffer</span><span style="color: #000000">)</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> [</span><span style="color: #001080">text</span><span style="color: #000000">]</span>
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">init</span><span style="color: #000000">(</span><span style="color: #001080">options</span><span style="color: #000000">) {</span>
+<span style="color: #000000">  </span><span style="color: #008000">// This will run once in new Web Worker contexts. We can use the `self` global to store data for later.</span>
+<span style="color: #000000">  </span><span style="color: #001080">self</span><span style="color: #000000">.</span><span style="color: #001080">params</span><span style="color: #000000"> = {</span>
+<span style="color: #000000">    </span><span style="color: #001080">encoding:</span><span style="color: #000000"> </span><span style="color: #001080">options</span><span style="color: #000000">.</span><span style="color: #001080">encoding</span>
+<span style="color: #000000">  }</span>
 <span style="color: #000000">}</span>
 </code></pre>
-			<p>Next we will import Rinzler and start the engine by passing the two functions we defined above.
-			The following code is written for asynchronous contexts, but you can translate it to synchronous by using <code>.then()</code> with a callback instead of <code>await</code>.</p>
+			<a href="#1-job-processing-function" id="1-job-processing-function" style="color: inherit; text-decoration: none;">
+				<h3>1. Job processing function</h3>
+			</a>
+			<p>We need to setup a function that will actually do the job we need to parallelize, in this case, decoding text buffers.</p>
+			<pre><code class="language-js"><span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">processJob</span><span style="color: #000000">(</span><span style="color: #001080">message</span><span style="color: #000000">) {</span>
+<span style="color: #000000">  </span><span style="color: #008000">// We expect to receive an object with an `encodedText` prop that is an ArrayBuffer.</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">buffer</span><span style="color: #000000"> = </span><span style="color: #001080">message</span><span style="color: #000000">.</span><span style="color: #001080">encodedText</span>
+
+<span style="color: #000000">  </span><span style="color: #008000">// Get the encoding parameter we stored earlier, or default to ASCII.</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">encoding</span><span style="color: #000000"> = </span><span style="color: #001080">self</span><span style="color: #000000">.</span><span style="color: #001080">params</span><span style="color: #000000">?.</span><span style="color: #001080">encoding</span><span style="color: #000000"> || </span><span style="color: #A31515">&#039;ascii&#039;</span>
+
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">text</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextDecoder</span><span style="color: #000000">(</span><span style="color: #001080">encoding</span><span style="color: #000000">).</span><span style="color: #795E26">decode</span><span style="color: #000000">(</span><span style="color: #001080">buffer</span><span style="color: #000000">)</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> [</span><span style="color: #001080">text</span><span style="color: #000000">]</span>
+<span style="color: #000000">}</span>
+</code></pre>
+			<a href="#2-engine-start" id="2-engine-start" style="color: inherit; text-decoration: none;">
+				<h3>2. Engine start</h3>
+			</a>
+			<p>Next we will import Rinzler and start the engine by passing the function(s) we defined above.</p>
+			<p>The following code is written for asynchronous contexts, but you can translate it to synchronous by using <code>.then()</code> with a callback instead of <code>await</code>.</p>
 			<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">RinzlerEngine</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;rinzler-engine&#039;</span>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">engine</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">RinzlerEngine</span><span style="color: #000000">().</span><span style="color: #795E26">configureAndStart</span><span style="color: #000000">(</span><span style="color: #001080">processJob</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">engine</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">RinzlerEngine</span><span style="color: #000000">().</span><span style="color: #795E26">configureAndStart</span><span style="color: #000000">(</span><span style="color: #001080">processJob</span><span style="color: #000000">, </span><span style="color: #001080">init</span><span style="color: #000000">, </span><span style="color: #001080">initOptions</span><span style="color: #000000">)</span>
 </code></pre>
-			<p>Now we can actually run jobs! We&#39;ll use the <code>runJob()</code> method, which returns a <code>Promise</code> that will resolve when the job is completed.
-			Since we need to pass an <code>ArrayBuffer</code>, we&#39;ll use the second argument as a <code>Transferable[]</code> - much like in the native <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage"><code>worker.postMessage()</code> API.</a></p>
-			<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">encodedText</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextEncoder</span><span style="color: #000000">().</span><span style="color: #795E26">encode</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;hello Rinzler&#039;</span><span style="color: #000000">)</span>
+			<a href="#3-running-jobs" id="3-running-jobs" style="color: inherit; text-decoration: none;">
+				<h3>3. Running jobs</h3>
+			</a>
+			<p>Now we can actually run jobs! We&#39;ll use the <code>runJob()</code> method, which returns a <code>Promise</code> that will resolve when the job is completed.</p>
+			<p>Since we need to pass an <code>ArrayBuffer</code>, we&#39;ll use the second argument as a <code>Transferable[]</code> - much like in the native <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage"><code>worker.postMessage()</code> API.</a></p>
+			<pre><code class="language-js"><span style="color: #008000">// Encode some text to try our decoder with</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">encodedText</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextEncoder</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;utf-8&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">encode</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;hello Rinzler!&#039;</span><span style="color: #000000">)</span>
+
+<span style="color: #008000">// Pass the encoded text to our decoding engine</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">decodedResult</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">engine</span><span style="color: #000000">.</span><span style="color: #795E26">runJob</span><span style="color: #000000">({ </span><span style="color: #001080">encodedText</span><span style="color: #000000"> }, [</span><span style="color: #001080">encodedText</span><span style="color: #000000">])</span>
 
-<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">decodedResult</span><span style="color: #000000">) </span><span style="color: #008000">// &quot;hello Rinzler&quot;</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">decodedResult</span><span style="color: #000000">) </span><span style="color: #008000">// &quot;hello Rinzler!&quot;</span>
 </code></pre>
 			<p>You can start as many jobs as you want, and take full advantage of ES6&#39;s asynchronous syntax (for example, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"><code>Promise.all()</code></a>).</p>
-			<p>If you use TypeScript, you can pass return types with the <code>runJob&lt;T&gt;(): Promise&lt;T&gt;</code> signature.</p>
+			<p><strong>If you use TypeScript,</strong> you can pass return types with the <code>runJob&lt;T&gt;(): Promise&lt;T&gt;</code> signature.</p>
 			<p>Under the hood, Rinzler will take care of launching Web Workers, balancing their load, and gracefully shutting them down when needed to reduce your app&#39;s memory footprint.</p>
+			<a href="#4-shutting-down" id="4-shutting-down" style="color: inherit; text-decoration: none;">
+				<h3>4. Shutting down</h3>
+			</a>
 			<p>Web Worker instances will be destroyed by the browser when the page exits, but you can schedule a graceful shutdown yourself using <code>engine.shutdown()</code>, which returns a <code>Promise</code> that will resolve once all currently active jobs have completed and all workers have been stopped.</p>
+			<a href="#licensing" id="licensing" style="color: inherit; text-decoration: none;">
+				<h2>Licensing</h2>
+			</a>
+			<p>Rinzler is licensed under the <a href="https://github.com/GitSquared/rinzler/blob/master/LICENSE">MIT License</a>. You may integrate it in commercial applications.</p>
+			<hr>
+			<a href="#©-2020-2021-gabriel-saillard-gabrielsaillarddev" id="©-2020-2021-gabriel-saillard-gabrielsaillarddev" style="color: inherit; text-decoration: none;">
+				<h6>© 2020-2021 Gabriel Saillard <a href="mailto:gabriel@saillard.dev">gabriel@saillard.dev</a></h6>
+			</a>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
@@ -2802,7 +2854,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Worker<wbr>Function&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="modules.html#workerfunctiontransferargs" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunctionTransferArgs</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="modules.html#workerfunctiontransferargs" class="tsd-signature-type" data-tsd-kind="Type alias">WorkerFunctionTransferArgs</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/e433a00/src/worker-wrapper.ts#L64">worker-wrapper.ts:64</a></li>
+						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/d7d2b82/src/worker-wrapper.ts#L64">worker-wrapper.ts:64</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2850,7 +2902,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Worker<wbr>Function<wbr>Transfer<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span>message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span>transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Transferable</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/e433a00/src/worker-wrapper.ts#L38">worker-wrapper.ts:38</a></li>
+						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/d7d2b82/src/worker-wrapper.ts#L38">worker-wrapper.ts:38</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2866,7 +2918,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Worker<wbr>Init<wbr>Function&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/e433a00/src/worker-wrapper.ts#L53">worker-wrapper.ts:53</a></li>
+						<li>Defined in <a href="https://github.com/GitSquared/rinzler/blob/d7d2b82/src/worker-wrapper.ts#L53">worker-wrapper.ts:53</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
