@@ -1,6 +1,6 @@
 {
   "name": "rinzler-engine",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A parallel processing engine for the browser.",
   "main": "./dist/rinzler.umd.js",
   "module": "./dist/rinzler.esm.js",

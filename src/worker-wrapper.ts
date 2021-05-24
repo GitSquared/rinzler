@@ -80,7 +80,7 @@ export default class WebWorker extends RinzlerEventEmitter {
 	constructor(workFunction: WorkerFunction, initFunction?: WorkerInitFunction, initArgs?: WorkerFunctionTransferArgs) {
 		super()
 		const populatedSrc = src
-			.replace('INIT_FUNCTION', initFunction?.toString() || 'async () => {}')
+			.replace('INIT_FUNCTION', initFunction?.toString() || 'function(){}')
 			.replace('WORK_FUNCTION', workFunction.toString())
 
 		const srcBlob = new Blob([populatedSrc], { type: 'application/javascript' })
