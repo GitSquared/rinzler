@@ -86,9 +86,9 @@ export default class WebWorker extends RinzlerEventEmitter {
 		const srcBlob = new Blob([populatedSrc], { type: 'application/javascript' })
 
 		this.#workerRef = new Worker(URL.createObjectURL(srcBlob))
-		this.#workerRef.addEventListener('message', this._messageHandler.bind(this))
-		this.#workerRef.addEventListener('messageerror', this._errMessageHandler.bind(this))
-		this.#workerRef.addEventListener('error', this._errorHandler.bind(this))
+		this.#workerRef.addEventListener('message', this.#messageHandler.bind(this))
+		this.#workerRef.addEventListener('messageerror', this.#errMessageHandler.bind(this))
+		this.#workerRef.addEventListener('error', this.#errorHandler.bind(this))
 
 		this.#initArgs = initArgs
 	}
@@ -109,7 +109,7 @@ export default class WebWorker extends RinzlerEventEmitter {
 		if (!this.active) throw new Error('Rinzler WorkerWrapper: not taking new jobs')
 
 		this.jobs.push(job)
-		this._processQueue()
+		this.#processQueue()
 	}
 
 	async shutdown(): Promise<void> {
@@ -126,7 +126,7 @@ export default class WebWorker extends RinzlerEventEmitter {
 
 	/* Internal methods */
 
-	private async _processQueue(): Promise<void> {
+	async #processQueue(): Promise<void> {
 		if (this.#workingJob !== null) return
 		const job = this.jobs[0]
 		this.#workingJob = job.id
@@ -134,7 +134,7 @@ export default class WebWorker extends RinzlerEventEmitter {
 		await super.waitFor(`jobok-${job.id}`)
 	}
 
-	private _messageHandler(e: MessageEvent): void {
+	#messageHandler(e: MessageEvent): void {
 		switch(e.data.type) {
 			case 'ready':
 				super._triggerEvent('ready')
@@ -151,7 +151,7 @@ export default class WebWorker extends RinzlerEventEmitter {
 				if (this.jobs.length === 0) {
 					super._triggerEvent('idle')
 				} else {
-					this._processQueue()
+					this.#processQueue()
 				}
 				break
 			default:
@@ -159,11 +159,11 @@ export default class WebWorker extends RinzlerEventEmitter {
 		}
 	}
 
-	private _errMessageHandler(): void {
+	#errMessageHandler(): void {
 		throw new Error('Rinzler WorkerWrapper: failed to deserialize message')
 	}
 
-	private _errorHandler(e: ErrorEvent): void {
+	#errorHandler(e: ErrorEvent): void {
 		throw new Error('Rinzler WorkerWrapper internal error: ' + e.message)
 	}
 }
