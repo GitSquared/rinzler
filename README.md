@@ -119,4 +119,4 @@ Rinzler is licensed under the [MIT License](https://github.com/GitSquared/rinzle
 
 ---
 
-###### © 2020-2021 Gabriel Saillard <gabriel@saillard.dev>
+###### © 2020-2022 Gabriel Saillard <gabriel@saillard.dev>
