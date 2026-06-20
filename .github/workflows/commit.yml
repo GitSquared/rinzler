@@ -7,16 +7,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 12.x
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          node-version: 20
+          cache: npm
       - name: Install dependencies
         run: npm ci
       - name: Run lint script
@@ -25,16 +20,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 12.x
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          node-version: 20
+          cache: npm
       - name: Install dependencies
         run: npm ci
       - name: Run build
@@ -43,16 +33,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 12.x
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          node-version: 20
+          cache: npm
       - name: Install dependencies
         run: npm ci
       - name: Run build
