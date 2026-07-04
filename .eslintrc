@@ -57,16 +57,11 @@
       "never"
     ],
     "no-await-in-loop": 0,
-    "@typescript-eslint/member-delimiter-style": [
+    "@typescript-eslint/no-unused-expressions": [
       2,
       {
-        "multiline": {
-          "delimiter": "none"
-        },
-        "singleline": {
-          "delimiter": "semi",
-          "requireLast": false
-        }
+        "allowShortCircuit": true,
+        "allowTernary": true
       }
     ],
     "@typescript-eslint/naming-convention": [

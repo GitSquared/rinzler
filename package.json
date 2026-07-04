@@ -7,7 +7,7 @@
   "types": "./dist/types/index.d.ts",
   "scripts": {
     "prepare": "husky install",
-    "lint": "eslint --color --ignore-path .gitignore \"src/**/*.ts\" \"worker-src/**/*.ts\"",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --color --ignore-path .gitignore \"src/**/*.ts\" \"worker-src/**/*.ts\"",
     "test": "tsc -p src && tsc -p worker-src",
     "build": "rollup --config",
     "make-docs": "typedoc && echo 'rinzler.js.org' > docs/CNAME"
@@ -46,9 +46,9 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^2.4.2",
     "@types/node": "^15.14.9",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "eslint": "^7.32.0",
+    "@typescript-eslint/eslint-plugin": "^8.62.1",
+    "@typescript-eslint/parser": "^8.62.1",
+    "eslint": "^9.39.2",
     "husky": "^6.0.0",
     "komit": "^1.0.5",
     "lint-staged": "^13.2.1",
