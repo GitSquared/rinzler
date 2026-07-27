@@ -7,7 +7,7 @@
   "types": "./dist/types/index.d.ts",
   "scripts": {
     "prepare": "husky install",
-    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --color --ignore-path .gitignore \"src/**/*.ts\" \"worker-src/**/*.ts\"",
+    "lint": "eslint --color \"src/**/*.ts\" \"worker-src/**/*.ts\"",
     "test": "tsc -p src && tsc -p worker-src",
     "build": "rollup --config",
     "make-docs": "typedoc && echo 'rinzler.js.org' > docs/CNAME"
@@ -35,34 +35,43 @@
   "dependencies": {
     "nanoid": "^3.3.4"
   },
+  "overrides": {
+    "@babel/runtime@^7.0.0": "7.28.4",
+    "ajv@^8.0.0": "8.20.0",
+    "brace-expansion@^1.0.0": "1.1.16",
+    "brace-expansion@^2.0.0": "2.1.2",
+    "brace-expansion@^5.0.0": "5.0.8",
+    "picomatch@^2.0.0": "2.3.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.18.6",
-    "@commitlint/cli": "^17.6.1",
-    "@commitlint/config-conventional": "^12.1.4",
-    "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-replace": "^2.4.2",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^10.0.1",
+    "@rollup/plugin-babel": "^7.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-replace": "^6.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
     "@types/node": "^15.14.9",
     "@typescript-eslint/eslint-plugin": "^8.62.1",
     "@typescript-eslint/parser": "^8.62.1",
-    "eslint": "^9.39.2",
+    "eslint": "^10.8.0",
+    "globals": "^17.7.0",
     "husky": "^6.0.0",
     "komit": "^1.0.5",
     "lint-staged": "^13.2.1",
-    "rollup": "^2.79.1",
+    "rollup": "^4.62.2",
     "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-license": "^3.7.0",
     "rollup-plugin-progress": "^1.1.2",
     "rollup-plugin-string": "^3.0.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.34.1",
+    "rollup-plugin-typescript2": "^0.37.0",
     "tslib": "^2.4.1",
-    "typedoc": "^0.23.20",
-    "typedoc-plugin-rename-defaults": "^0.6.4",
-    "typescript": "^4.8.4"
+    "typedoc": "^0.28.20",
+    "typedoc-plugin-rename-defaults": "^0.7.3",
+    "typescript": "^5.9.3"
   }
 }

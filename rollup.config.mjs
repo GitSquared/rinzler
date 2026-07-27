@@ -1,25 +1,33 @@
 import path from 'path'
+import { mkdir, copyFile } from 'fs/promises'
+import { createRequire } from 'module'
+import { fileURLToPath } from 'url'
 import { string } from 'rollup-plugin-string'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import babel from '@rollup/plugin-babel'
 import replace from '@rollup/plugin-replace'
-import copy from 'rollup-plugin-copy'
-import { terser } from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 import license from 'rollup-plugin-license'
 import progress from 'rollup-plugin-progress'
 import analyze from 'rollup-plugin-analyzer'
-import pkg from './package.json'
+const require = createRequire(import.meta.url)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const pkg = require('./package.json')
+
+const copyWorkerTypes = () => ({
+	name: 'copy-worker-types',
+	async buildStart() {
+		await mkdir('dist/internals', { recursive: true })
+		await copyFile('worker-src/index.d.ts', 'dist/internals/worker-src.d.ts')
+	}
+})
 
 export default [
 	{
 		input: 'worker-src/index.ts',
 		plugins: [
-			copy({
-				targets: [
-					{ src: 'worker-src/index.d.ts', dest: 'dist/internals', rename: () => { return 'worker-src.d.ts' } }
-				]
-			}),
+			copyWorkerTypes(),
 			typescript({
 				check: false,
 				tsconfig: './worker-src/tsconfig.json'
